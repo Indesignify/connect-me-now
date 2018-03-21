@@ -10,6 +10,8 @@ public class MeetingsEntity {
     private int meetingId;
     private int requesterId;
     private int responderId;
+    private Double requesterCoord;
+    private Double responderCoord;
     private Timestamp createdAt;
     private Timestamp endedAt;
     private Timestamp expiresAt;
@@ -43,6 +45,26 @@ public class MeetingsEntity {
 
     public void setResponderId(int responderId) {
         this.responderId = responderId;
+    }
+
+    @Basic
+    @Column(name = "requester_coord", nullable = true, precision = 0)
+    public Double getRequesterCoord() {
+        return requesterCoord;
+    }
+
+    public void setRequesterCoord(Double requesterCoord) {
+        this.requesterCoord = requesterCoord;
+    }
+
+    @Basic
+    @Column(name = "responder_coord", nullable = true, precision = 0)
+    public Double getResponderCoord() {
+        return responderCoord;
+    }
+
+    public void setResponderCoord(Double responderCoord) {
+        this.responderCoord = responderCoord;
     }
 
     @Basic
@@ -93,6 +115,8 @@ public class MeetingsEntity {
         return meetingId == that.meetingId &&
                 requesterId == that.requesterId &&
                 responderId == that.responderId &&
+                Objects.equals(requesterCoord, that.requesterCoord) &&
+                Objects.equals(responderCoord, that.responderCoord) &&
                 Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(endedAt, that.endedAt) &&
                 Objects.equals(expiresAt, that.expiresAt) &&
@@ -102,6 +126,6 @@ public class MeetingsEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(meetingId, requesterId, responderId, createdAt, endedAt, expiresAt, meetingStatus);
+        return Objects.hash(meetingId, requesterId, responderId, requesterCoord, responderCoord, createdAt, endedAt, expiresAt, meetingStatus);
     }
 }

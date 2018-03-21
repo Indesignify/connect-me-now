@@ -13,6 +13,7 @@ public class UsersEntity {
     private String nickname;
     private String password;
     private String email;
+    private String avatar;
     private Timestamp registrationDate;
     private Timestamp lastOnline;
     private String status;
@@ -78,6 +79,16 @@ public class UsersEntity {
     }
 
     @Basic
+    @Column(name = "avatar", nullable = true, length = 255)
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    @Basic
     @Column(name = "registration_date", nullable = true)
     public Timestamp getRegistrationDate() {
         return registrationDate;
@@ -118,6 +129,7 @@ public class UsersEntity {
                 Objects.equals(nickname, that.nickname) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(email, that.email) &&
+                Objects.equals(avatar, that.avatar) &&
                 Objects.equals(registrationDate, that.registrationDate) &&
                 Objects.equals(lastOnline, that.lastOnline) &&
                 Objects.equals(status, that.status);
@@ -126,6 +138,6 @@ public class UsersEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, firstName, lastName, nickname, password, email, registrationDate, lastOnline, status);
+        return Objects.hash(id, firstName, lastName, nickname, password, email, avatar, registrationDate, lastOnline, status);
     }
 }
