@@ -21,7 +21,7 @@ public class UsersEntity {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    private long id;
 
     private String firstName;
     private String lastName;
@@ -29,9 +29,9 @@ public class UsersEntity {
     private String password;
     private String email;
     private String avatar;
-//    private Timestamp registrationDate;
-//    private Timestamp lastOnline;
-    private String status;
+    private Timestamp registrationDate;
+    private Timestamp lastOnline;
+    private Status status;
     private Boolean isValidated;
 
     @ManyToMany
@@ -49,14 +49,16 @@ public class UsersEntity {
     private List<UsersEntity> friendOf;
 
     public UsersEntity(
-        int id,
+        long id,
         String firstName,
         String lastName,
         String nickname,
         String password,
         String email,
         String avatar,
-        String status,
+        Timestamp registrationDate,
+        Timestamp lastOnline,
+        Status status,
         Boolean isValidated,
         List<UsersEntity> friends,
         List<UsersEntity> friendOf) {
@@ -68,9 +70,16 @@ public class UsersEntity {
         this.password = password;
         this.email = email;
         this.avatar = avatar;
+        this.registrationDate = registrationDate;
+        this.lastOnline = lastOnline;
         this.status = status;
         this.isValidated = isValidated;
         this.friends = (friends != null) ? friends : new ArrayList<>();
         this.friendOf = (friendOf != null) ? friendOf : new ArrayList<>();
+    }
+
+    @Enumerated(EnumType.STRING)
+    public Status getStatus() {
+        return status;
     }
 }

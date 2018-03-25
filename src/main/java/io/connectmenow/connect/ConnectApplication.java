@@ -1,5 +1,9 @@
 package io.connectmenow.connect;
 
+import static io.connectmenow.connect.model.entities.Status.OFFLINE;
+import static io.connectmenow.connect.model.entities.Status.ONLINE;
+
+import io.connectmenow.connect.model.entities.Status;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -49,6 +53,7 @@ public class ConnectApplication {
           .nickname("Aaddddd")
           .email("blabla@mail.ru")
           .password("123456")
+          .status(ONLINE)
           .build();
 
       final UsersEntity user2 = UsersEntity.builder()
@@ -57,6 +62,7 @@ public class ConnectApplication {
           .nickname("Annushka")
           .email("annushka@mail.ru")
           .password("125646")
+          .status(OFFLINE)
           .build();
 
       user1.getFriends().add(user2);
@@ -64,7 +70,10 @@ public class ConnectApplication {
       repository.save(user2);
       repository.save(user1);
 
+      user2.getFriends().add(user1);
 
+      repository.save(user1);
+      repository.save(user2);
 
 //			// fetch all customers
 //			log.info("Customers found with findAll():");
