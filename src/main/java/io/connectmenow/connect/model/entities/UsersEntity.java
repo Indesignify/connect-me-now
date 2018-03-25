@@ -35,14 +35,14 @@ public class UsersEntity {
     private Boolean isValidated;
 
     @ManyToMany
-    @JoinTable(name="tbl_friends",
+    @JoinTable(name="users_friends",
         joinColumns=@JoinColumn(name="personId"),
         inverseJoinColumns=@JoinColumn(name="friendId")
     )
     private List<UsersEntity> friends;
 
     @ManyToMany
-    @JoinTable(name="tbl_friends",
+    @JoinTable(name="users_friends",
         joinColumns=@JoinColumn(name="friendId"),
         inverseJoinColumns=@JoinColumn(name="personId")
     )
