@@ -3,7 +3,6 @@ package io.connectmenow.connect;
 import static io.connectmenow.connect.model.entities.Status.OFFLINE;
 import static io.connectmenow.connect.model.entities.Status.ONLINE;
 
-import io.connectmenow.connect.model.entities.Status;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
