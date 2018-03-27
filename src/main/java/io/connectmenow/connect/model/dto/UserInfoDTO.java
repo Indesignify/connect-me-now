@@ -58,5 +58,43 @@ public class UserInfoDTO {
         }
     }
 
+   /* public void UserUpdate(String Update, long UserID) {
+        try
+        {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, name, password);
 
+            String getOldPassQuery = "SELECT password FROM users WHERE person_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(getOldPassQuery);
+            preparedStatement.setLong(1, UserID);
+
+            ResultSet resSetFromUsers = preparedStatement.executeQuery(getOldPassQuery);
+            String dbOldPass = null;
+            while (resSetFromUsers.next()){
+                dbOldPass = resSetFromUsers.getString()
+            }
+            preparedStatement = connection.prepareStatement(
+                    "SELECT friend_id FROM users_friends WHERE person_id = ?");
+            preparedStatement.setLong(1, userID);
+            ResultSet result2 = preparedStatement.executeQuery();
+
+            System.out.println("Выводит друзей: ");
+            while (result2.next()) {
+                System.out.println(result2.getLong("friend_id"));
+            }
+        } catch (
+                Exception ex)
+        {
+            Logger.getLogger(UserInfoDTO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally
+        {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(UserInfoDTO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }*/
 }
