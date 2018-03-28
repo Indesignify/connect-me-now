@@ -2,12 +2,14 @@ package io.connectmenow.connect.model.entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "meetings", schema = "public", catalog = "postgres")
@@ -27,32 +29,6 @@ public class MeetingsEntity {
     private Timestamp endedAt;
     private Timestamp expiresAt;
     private MeetingStatus meetingStatus;
-
-    public MeetingsEntity(
-        long meetingId,
-        long requesterId,
-        long responderId,
-        Double requesterCoordX,
-        Double requesterCoordY,
-        Double responderCoordX,
-        Double responderCoordY,
-        Timestamp createdAt,
-        Timestamp endedAt,
-        Timestamp expiresAt,
-        MeetingStatus meetingStatus) {
-
-        this.meetingId = meetingId;
-        this.requesterId = requesterId;
-        this.responderId = responderId;
-        this.requesterCoordX = requesterCoordX;
-        this.requesterCoordY = requesterCoordY;
-        this.responderCoordX = responderCoordX;
-        this.responderCoordY = responderCoordY;
-        this.createdAt = createdAt;
-        this.endedAt = endedAt;
-        this.expiresAt = expiresAt;
-        this.meetingStatus = meetingStatus;
-    }
 
     @Id
     @Column(name = "meeting_id", nullable = false)

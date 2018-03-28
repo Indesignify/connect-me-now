@@ -1,6 +1,6 @@
 package io.connectmenow.connect.model.entities;
 
-public enum Status {
+public enum UserStatus {
   ONLINE {
     public String toString() {
       return "online";

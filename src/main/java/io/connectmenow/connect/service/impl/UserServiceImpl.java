@@ -1,9 +1,12 @@
 package io.connectmenow.connect.service.impl;
 
+import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.service.UserService;
+import io.connectmenow.connect.service.converters.UserConverter;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private UserConverter userConverter;
 
   @Override
   public UserDTO getUserById(final Long id) {
@@ -31,4 +37,22 @@ public class UserServiceImpl implements UserService {
         // and so on...
         .build();
   }
+
+  @Override
+  public UserDTO createUser(CreateUserDTO userDTO) {
+
+
+    return null;
+  }
+
+  @Override
+  public List<UserDTO> findUsers(String firstName, String lastName) {
+
+    List<UsersEntity> users = userRepository
+        .findUserByFirstNameAndLastName(firstName, lastName);
+
+    return userConverter.convertUserDTOToUsersEntityList(users);
+  }
+
+
 }

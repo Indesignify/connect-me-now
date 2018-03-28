@@ -1,6 +1,6 @@
 package io.connectmenow.connect.model.dto;
 
-import io.connectmenow.connect.model.entities.Status;
+import io.connectmenow.connect.model.entities.UserStatus;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +22,6 @@ public class UserDTO {
   private String avatar;
   private Timestamp registrationDate;
   private Timestamp lastOnline;
-  private Status status;
+  private UserStatus status;
   private Boolean isValidated;
 }
