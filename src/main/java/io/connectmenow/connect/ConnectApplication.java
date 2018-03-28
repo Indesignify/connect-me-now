@@ -1,8 +1,9 @@
 package io.connectmenow.connect;
 
-import static io.connectmenow.connect.model.entities.Status.OFFLINE;
-import static io.connectmenow.connect.model.entities.Status.ONLINE;
+import static io.connectmenow.connect.model.entities.UserStatus.OFFLINE;
+import static io.connectmenow.connect.model.entities.UserStatus.ONLINE;
 
+import io.connectmenow.connect.model.dto.UserInfoDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -64,15 +65,60 @@ public class ConnectApplication {
           .status(OFFLINE)
           .build();
 
+      final UsersEntity user3 = UsersEntity.builder()
+              .firstName("Natasha")
+              .lastName("Ivanova")
+              .nickname("Poput4ik")
+              .email("Natasha@mail.ru")
+              .password("125646")
+              .status(OFFLINE)
+              .build();
+
+      final UsersEntity user4 = UsersEntity.builder()
+              .firstName("Ivan")
+              .lastName("Ivanov")
+              .nickname("Ivaichse")
+              .email("Ivanov123@mail.ru")
+              .password("125646")
+              .status(OFFLINE)
+              .build();
+
+      final UsersEntity user5 = UsersEntity.builder()
+              .firstName("Gleb")
+              .lastName("Gitelman")
+              .nickname("EtoYa")
+              .email("Gitelman@mail.ru")
+              .password("125646")
+              .status(OFFLINE)
+              .build();
+
+      repository.save(user1);
+      repository.save(user2);
+      repository.save(user3);
+      repository.save(user4);
+      repository.save(user5);
+
+
       user1.getFriends().add(user2);
-
-      repository.save(user2);
-      repository.save(user1);
-
       user2.getFriends().add(user1);
+      user1.getFriends().add(user5);
+      user5.getFriends().add(user1);
 
       repository.save(user1);
       repository.save(user2);
+      repository.save(user3);
+      repository.save(user4);
+      repository.save(user5);
+
+
+
+
+
+      UserInfoDTO userInfoDTO = new UserInfoDTO(1);
+      userInfoDTO.GetUserID();
+      userInfoDTO.GetFriendsID(1);
+
+
 
 //			// fetch all customers
 //			log.info("Customers found with findAll():");
