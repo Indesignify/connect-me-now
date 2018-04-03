@@ -15,6 +15,9 @@ public enum UserStatus {
     public String toString() {
       return "dnd";
     }
+  },
+  INACTIVE {
+    public String toString() { return "inactive"; }
   };
 
   public abstract String toString();

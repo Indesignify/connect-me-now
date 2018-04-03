@@ -3,10 +3,8 @@ package io.connectmenow.connect;
 import static io.connectmenow.connect.model.entities.UserStatus.OFFLINE;
 import static io.connectmenow.connect.model.entities.UserStatus.ONLINE;
 
-import io.connectmenow.connect.model.dto.UserInfoDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 
-@Log4j2
 @SpringBootApplication
 public class ConnectApplication {
 
@@ -28,13 +25,6 @@ public class ConnectApplication {
 
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setInterceptors(new ArrayList<>());
-//		restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor() {
-//			@Override
-//			public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
-//
-//
-//			}
-//		})
 
     return restTemplate;
   }
@@ -45,8 +35,6 @@ public class ConnectApplication {
       RestTemplate restTemplate) {
 
     return (args) -> {
-      // save a couple of customers
-
       final UsersEntity user1 = UsersEntity.builder()
           .firstName("Daniel")
           .lastName("Chkheidze")
@@ -110,43 +98,6 @@ public class ConnectApplication {
       repository.save(user4);
       repository.save(user5);
 
-
-
-
-
-      UserInfoDTO userInfoDTO = new UserInfoDTO(1);
-      userInfoDTO.GetUserID();
-      userInfoDTO.GetFriendsID(1);
-
-
-
-//			// fetch all customers
-//			log.info("Customers found with findAll():");
-//			log.info("-------------------------------");
-//			for (Customer customer : repository.findAll()) {
-//				log.info(customer.toString());
-//			}
-//			log.info("");
-//
-//			// fetch an individual customer by ID
-//			repository.findById(1L)
-//					.ifPresent(customer -> {
-//						log.info("Customer found with findById(1L):");
-//						log.info("--------------------------------");
-//						log.info(customer.toString());
-//						log.info("");
-//					});
-//
-//			// fetch customers by last name
-//			log.info("Customer found with findByLastName('Bauer'):");
-//			log.info("--------------------------------------------");
-//			repository.findByLastName("Bauer").forEach(bauer -> {
-//				log.info(bauer.toString());
-//			});
-//			// for (Customer bauer : repository.findByLastName("Bauer")) {
-//			// 	log.info(bauer.toString());
-//			// }
-//			log.info("");
     };
   }
 }

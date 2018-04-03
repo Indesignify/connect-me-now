@@ -2,7 +2,9 @@ package io.connectmenow.connect.repository;
 
 import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<UsersEntity, Long> {
   List<UsersEntity> findUserByFirstName(String firstName);
@@ -10,4 +12,8 @@ public interface UserRepository extends CrudRepository<UsersEntity, Long> {
   List<UsersEntity> findUserByNickname(String nickname);
   List<UsersEntity> findUserByEmail(String email);
   List<UsersEntity> findUserByFirstNameAndLastName(String firstName, String lastName);
+
+  @Query(value = "SELECT u FROM users WHERE lastName = lastName",
+          nativeQuery = true)
+  List<UsersEntity> findUsersByParameters(@Param("searchTerm") String searchTerm);
 }

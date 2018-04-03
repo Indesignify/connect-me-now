@@ -24,18 +24,25 @@ public class UsersEntity {
     private long id;
 
     private String firstName;
+
     private String lastName;
+
     private String nickname;
+
     private String password;
+
     private String email;
+
     private String avatar;
+
     private Timestamp registrationDate;
+
     private Timestamp lastOnline;
+
     private Boolean isValidated;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
-
 
     @ManyToMany
     @JoinTable(name="users_friends",

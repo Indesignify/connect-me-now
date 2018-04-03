@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,6 +22,7 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  // GET /users/{userId}
   @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO getUser(
       @PathVariable("userId") Long userId) {
@@ -28,6 +30,7 @@ public class UserController {
     return userService.getUserById(userId);
   }
 
+  // GET /users
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<UserDTO> getUsers(
       @PathParam("firstName") String firstName,
@@ -36,10 +39,36 @@ public class UserController {
     return userService.findUsers(firstName, lastName);
   }
 
+  // GET /users?{filter}  <=> /users?lastName=...&firstName=...&...
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<UserDTO> searchUser(
+      @RequestParam(value = "search") String search) {
+
+    return null;
+  }
+
+  // POST /users -> CreateUserDTO
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO createUser (
       @RequestBody CreateUserDTO userDTO) {
 
     return null;
   }
+
+  // PUT /users/ -> UpdateUserDTO
+
+
+  // DELETE /users/ -> Set inactive status
+
+
+  // ---------------------
+  // POST /users/friends/{userId}  <=> posts json array of [ id_1, id_2, ..., id_n ]
+
+
+  // DELETE /users/friends/{userId}
+
+
+  // GET /users/friends    <=> returns json array (even if there is 1 friend)
+
+
 }
