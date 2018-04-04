@@ -49,12 +49,12 @@ public class UsersEntity {
         joinColumns=@JoinColumn(name="personId"),
         inverseJoinColumns=@JoinColumn(name="friendId")
     )
-    private List<UsersEntity> friends = new ArrayList<>();
+    private List<UsersEntity> friends;
 
     @ManyToMany
     @JoinTable(name="users_friends",
         joinColumns=@JoinColumn(name="friendId"),
         inverseJoinColumns=@JoinColumn(name="personId")
     )
-    private List<UsersEntity> friendOf = new ArrayList<>();
+    private List<UsersEntity> friendOf;
 }

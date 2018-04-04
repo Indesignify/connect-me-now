@@ -16,12 +16,21 @@ public class UserDTO {
   private long id;
 
   private String firstName;
+
   private String lastName;
+
   private String nickname;
+
   private String email;
+
   private String avatar;
+
   private Timestamp registrationDate;
+
   private Timestamp lastOnline;
+
   private UserStatus status;
+
   private Boolean isValidated;
+
 }

@@ -22,6 +22,18 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  // GET /users/
+  @GetMapping
+  public List<UserDTO> listAllUsers() {
+    List<UserDTO> users = userService.getAllUsers();
+
+    if (users.isEmpty()) {
+      return null;
+    }
+
+    return users;
+  }
+
   // GET /users/{userId}
   @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO getUser(
@@ -31,13 +43,13 @@ public class UserController {
   }
 
   // GET /users
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<UserDTO> getUsers(
-      @PathParam("firstName") String firstName,
-      @PathParam("lastName") String lastName) {
-
-    return userService.findUsers(firstName, lastName);
-  }
+//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//  public List<UserDTO> getUsers(
+//      @PathParam("firstName") String firstName,
+//      @PathParam("lastName") String lastName) {
+//
+//    return userService.findUsers(firstName, lastName);
+//  }
 
   // GET /users?{filter}  <=> /users?lastName=...&firstName=...&...
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,10 +61,10 @@ public class UserController {
 
   // POST /users -> CreateUserDTO
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public UserDTO createUser (
-      @RequestBody CreateUserDTO userDTO) {
+  public void createUser (
+      @RequestBody CreateUserDTO createUserDTO) {
 
-    return null;
+    userService.saveUser(createUserDTO);
   }
 
   // PUT /users/ -> UpdateUserDTO

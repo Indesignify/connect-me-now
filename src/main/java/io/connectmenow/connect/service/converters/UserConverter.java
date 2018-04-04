@@ -1,5 +1,6 @@
 package io.connectmenow.connect.service.converters;
 
+import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.List;
@@ -10,8 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserConverter {
 
-  public UsersEntity convertUsersEntityToUserDTO(UserDTO userDTO);
+  public UserDTO convertUsersEntityToUserDTO(UsersEntity usersEntity);
   public List<UsersEntity> convertUsersEntityToUserDTOList(List<UserDTO> userDTO);
-  public UserDTO convertUserDTOToUsersEntity(UsersEntity usersEntity);
+  public UsersEntity convertUserDTOToUsersEntity(UserDTO userDTO);
   public List<UserDTO> convertUserDTOToUsersEntityList(List<UsersEntity> usersEntity);
+
+  public UsersEntity convertCreateUserDTOToUsersEntity(CreateUserDTO createUserDTO);
+  public CreateUserDTO convertUsersEntityToCreateUserDTO(UsersEntity usersEntity);
 }

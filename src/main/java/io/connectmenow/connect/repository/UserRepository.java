@@ -13,6 +13,15 @@ public interface UserRepository extends CrudRepository<UsersEntity, Long> {
   List<UsersEntity> findUserByEmail(String email);
   List<UsersEntity> findUserByFirstNameAndLastName(String firstName, String lastName);
 
+//  public List<UserDTO> findUsers(String firstName, String lastName) {
+//
+//    List<UsersEntity> users = userRepository
+//        .findUserByFirstNameAndLastName(firstName, lastName);
+//
+//    return userConverter.convertUserDTOToUsersEntityList(users);
+//  }
+
+
   @Query(value = "SELECT u FROM users WHERE lastName = lastName",
           nativeQuery = true)
   List<UsersEntity> findUsersByParameters(@Param("searchTerm") String searchTerm);

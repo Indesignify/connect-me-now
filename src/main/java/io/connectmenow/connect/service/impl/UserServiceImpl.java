@@ -7,10 +7,12 @@ import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.service.UserService;
 import io.connectmenow.connect.service.converters.UserConverter;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
 
   @Autowired
@@ -24,36 +26,52 @@ public class UserServiceImpl implements UserService {
 
     final UsersEntity usersEntity = userRepository.findById(id).orElse(null);
 
-    if(usersEntity == null) {
+    if (usersEntity == null) {
       return null;
     }
 
-    // For easier transformation entity <-> dto it is useful to use tools. For example http://mapstruct.org/
-    return UserDTO.builder()
-        .id(usersEntity.getId())
-        .firstName(usersEntity.getFirstName())
-        .lastName(usersEntity.getLastName())
-        .email(usersEntity.getEmail())
-        // and so on...
-        .build();
+    return userConverter.convertUsersEntityToUserDTO(usersEntity);
+
   }
 
   @Override
-  public UserDTO createUser(CreateUserDTO userDTO) {
+  public void saveUser(CreateUserDTO createUserDTO) {
 
-    // final UsersEntity usersEntity = userRepository.save;
+    userRepository.save(userConverter.convertCreateUserDTOToUsersEntity(createUserDTO));
 
+  }
+
+  @Override
+  public void updateUser(UserDTO userDTO) {
+
+  }
+
+  @Override
+  public void deleteUserById(Long userId) {
+
+    userRepository.deleteById(userId);
+
+  }
+
+  @Override
+  public List<UserDTO> getAllUsers() {
+
+//    return userRepository
+//        .findAll()
+//        .forEach(usersEntity -> userConverter.convertUsersEntityToUserDTO(usersEntity));
     return null;
   }
 
   @Override
-  public List<UserDTO> findUsers(String firstName, String lastName) {
-
-    List<UsersEntity> users = userRepository
-        .findUserByFirstNameAndLastName(firstName, lastName);
-
-    return userConverter.convertUserDTOToUsersEntityList(users);
+  public void deleteAllUsers() {
+    userRepository.deleteAll();
   }
 
+  @Override
+  public boolean isUserExist(UserDTO userDTO) {
+
+    return userRepository.existsById(userDTO.getId());
+
+  }
 
 }

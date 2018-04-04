@@ -16,4 +16,5 @@ public class CreateUserDTO {
   private String nickname;
   private String email;
   private String password;
+
 }
