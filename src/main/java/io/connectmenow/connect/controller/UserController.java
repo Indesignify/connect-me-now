@@ -2,9 +2,8 @@ package io.connectmenow.connect.controller;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
-import io.connectmenow.connect.service.UserService;
+import io.connectmenow.connect.services.UserService;
 import java.util.List;
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ public class UserController {
   private UserService userService;
 
   // GET /users/
-  @GetMapping
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<UserDTO> listAllUsers() {
     List<UserDTO> users = userService.getAllUsers();
 
@@ -52,12 +51,12 @@ public class UserController {
 //  }
 
   // GET /users?{filter}  <=> /users?lastName=...&firstName=...&...
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<UserDTO> searchUser(
-      @RequestParam(value = "search") String search) {
-
-    return null;
-  }
+//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//  public List<UserDTO> searchUser(
+//      @RequestParam(value = "search") String search) {
+//
+//    return null;
+//  }
 
   // POST /users -> CreateUserDTO
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
