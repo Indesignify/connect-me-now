@@ -1,11 +1,12 @@
-package io.connectmenow.connect.service.impl;
+package io.connectmenow.connect.services.impl;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
-import io.connectmenow.connect.service.UserService;
-import io.connectmenow.connect.service.converters.UserConverter;
+import io.connectmenow.connect.services.UserService;
+import io.connectmenow.connect.services.converters.UserConverter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +57,14 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<UserDTO> getAllUsers() {
 
-//    return userRepository
-//        .findAll()
-//        .forEach(usersEntity -> userConverter.convertUsersEntityToUserDTO(usersEntity));
-    return null;
+    List<UserDTO> allUsers = new ArrayList<>();
+
+    userRepository
+        .findAll()
+        .forEach(usersEntity ->
+          allUsers.add(userConverter.convertUsersEntityToUserDTO(usersEntity)));
+
+    return allUsers;
   }
 
   @Override

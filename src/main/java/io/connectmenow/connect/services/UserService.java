@@ -1,4 +1,4 @@
-package io.connectmenow.connect.service;
+package io.connectmenow.connect.services;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
