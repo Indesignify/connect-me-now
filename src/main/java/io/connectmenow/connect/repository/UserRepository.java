@@ -8,12 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends PagingAndSortingRepository<UsersEntity, Long> {
 
-  @Query(value = "SELECT u FROM users u WHERE "
-      + "(LOWER(u.first_name) = LOWER(:firstName) OR :firstName IS NULL) AND "
-      + "(LOWER(u.last_name) = LOWER(:lastName) OR :lastName IS NULL) AND "
-      + "(LOWER(u.nickname) = LOWER(:nickname) OR :nickname IS NULL) AND "
-      + "(LOWER(u.email) = LOWER(:email) OR :email IS NULL)",
-      nativeQuery = true)
+  @Query(value = "SELECT u FROM UsersEntity u WHERE "
+      + "(:firstName IS NULL OR u.firstName = :firstName) AND "
+      + "(:lastName IS NULL OR u.lastName = :lastName) AND "
+      + "(:nickname IS NULL OR u.nickname = :nickname) AND "
+      + "(:email IS NULL OR u.email = :email)")
   List<UsersEntity> findUsersByParams(
       @Param("firstName") String firstName, @Param("lastName") String lastName,
       @Param("nickname") String nickname, @Param("email") String email);
