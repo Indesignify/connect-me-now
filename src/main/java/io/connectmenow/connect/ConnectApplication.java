@@ -1,6 +1,7 @@
 package io.connectmenow.connect;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.services.converters.UserConverter;
 import org.springframework.boot.CommandLineRunner;
@@ -81,6 +82,27 @@ public class ConnectApplication {
           .avatar("http://www.example.com/6.jpg")
           .build()));
 
+      final UsersEntity user1 = repository.findById(1L).get();
+      final UsersEntity user2 = repository.findById(2L).get();
+      final UsersEntity user3 = repository.findById(3L).get();
+      final UsersEntity user4 = repository.findById(4L).get();
+
+      user1.getFriends().add(user2);
+      user1.getFriends().add(user3);
+
+      user2.getFriends().add(user1);
+      user2.getFriends().add(user3);
+
+      user3.getFriends().add(user1);
+
+      user4.getFriends().add(user1);
+      user4.getFriends().add(user2);
+      user4.getFriends().add(user3);
+
+      repository.save(user1);
+      repository.save(user2);
+      repository.save(user3);
+      repository.save(user4);
     };
   }
 }

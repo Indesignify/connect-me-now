@@ -1,17 +1,23 @@
 package io.connectmenow.connect.model.entities;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.util.Calendar;
+import java.sql.Timestamp;
 import java.util.List;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.sql.Timestamp;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -64,14 +70,14 @@ public class UsersEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="users_friends",
         joinColumns=@JoinColumn(name="personId"),
         inverseJoinColumns=@JoinColumn(name="friendId")
     )
     private List<UsersEntity> friends;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="users_friends",
         joinColumns=@JoinColumn(name="friendId"),
         inverseJoinColumns=@JoinColumn(name="personId")
