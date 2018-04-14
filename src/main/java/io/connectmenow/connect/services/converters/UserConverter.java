@@ -1,9 +1,11 @@
 package io.connectmenow.connect.services.converters;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.List;
+import org.hibernate.sql.Update;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +13,26 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserConverter {
 
-  public UserDTO convertUsersEntityToUserDTO(UsersEntity usersEntity);
-  public List<UserDTO> convertUsersEntityToUserDTOList(List<UsersEntity> usersEntities);
-  public UsersEntity convertUserDTOToUsersEntity(UserDTO userDTO);
-  public List<UsersEntity> convertUserDTOToUsersEntityList(List<UserDTO> userDTOs);
+  // UsersEntity <-> UserDTO
+  UsersEntity convertUserDTOToUsersEntity(UserDTO userDTO);
+  List<UsersEntity> convertUserDTOToUsersEntityList(List<UserDTO> userDTOs);
+  UserDTO convertUsersEntityToUserDTO(UsersEntity usersEntity);
+  List<UserDTO> convertUsersEntityToUserDTOList(List<UsersEntity> usersEntities);
 
-  public UsersEntity convertCreateUserDTOToUsersEntity(CreateUserDTO createUserDTO);
-  public List<UsersEntity> convertCreateUserDTOToUsersEntityList(List<CreateUserDTO> createUserDTOS);
-  public CreateUserDTO convertUsersEntityToCreateUserDTO(UsersEntity usersEntity);
-  public List<CreateUserDTO> convertUsersEntityToCreateUserDTOList(List<UsersEntity> usersEntities);
+  // UsersEntity <-> CreateUserDTO
+  UsersEntity convertCreateUserDTOToUsersEntity(CreateUserDTO createUserDTO);
+  CreateUserDTO convertUsersEntityToCreateUserDTO(UsersEntity usersEntity);
+
+  // UsersEntity <-> UpdateUserDTO
+  UsersEntity convertUpdateUserDTOToUsersEntity(UpdateUserDTO updateUserDTO);
+  UpdateUserDTO convertUsersEntityToUpdateUserDTO(UsersEntity usersEntity);
+
+  // UserDTO <-> UpdateUserDTO
+  UserDTO convertUpdateUserDTOToUserDTO(UpdateUserDTO updateUserDTO);
+  UpdateUserDTO convertUserDTOToUpdateUserDTO(UserDTO userDTO);
+
+  // UserDTO <-> CreateUserDTO
+  UserDTO convertCreateUserDTOToUserDTO(CreateUserDTO createUserDTO);
+  CreateUserDTO convertUserDTOToCreateUserDTO(UserDTO userDTO);
+
 }

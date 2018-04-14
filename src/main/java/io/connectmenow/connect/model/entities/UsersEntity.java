@@ -1,7 +1,10 @@
 package io.connectmenow.connect.model.entities;
 
-import java.util.ArrayList;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Calendar;
 import java.util.List;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +12,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Builder
 @NoArgsConstructor
@@ -23,24 +28,39 @@ public class UsersEntity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
     private String nickname;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column
     private String avatar;
 
+    @Column
+    @CreationTimestamp
     private Timestamp registrationDate;
 
-    private Timestamp lastOnline;
+    @Column
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
-    private Boolean isValidated;
+    @Column
+    private Timestamp lastOnline = new Timestamp(System.currentTimeMillis());
 
+    @Column
+    private Boolean isValidated = false;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
@@ -57,4 +77,5 @@ public class UsersEntity {
         inverseJoinColumns=@JoinColumn(name="personId")
     )
     private List<UsersEntity> friendOf;
+
 }

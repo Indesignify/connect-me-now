@@ -1,6 +1,7 @@
 package io.connectmenow.connect.services;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import java.util.List;
 
@@ -9,17 +10,18 @@ public interface UserService {
 
   UserDTO getUserById(Long id);
 
-  void saveUser(CreateUserDTO createUserDTO);
+  List<UserDTO> getAllUsers(String firstName, String lastName, String nickname, String email);
 
-  void updateUser(UserDTO userDTO);
+  UserDTO createUser(CreateUserDTO createUserDTO);
+
+  UserDTO updateUser(Long userId, UpdateUserDTO updateUserDTO);
+
+  UserDTO updateUserPartially(Long userId, UpdateUserDTO updateUserDTO);
 
   void deleteUserById(Long userId);
 
-  List<UserDTO> getAllUsers();
-
   void deleteAllUsers();
 
-  public boolean isUserExist(UserDTO userDTO);
+  boolean isUserExist(UserDTO userDTO);
 
-  // List<UserDTO> findUsers(String firstName, String lastName);
 }
