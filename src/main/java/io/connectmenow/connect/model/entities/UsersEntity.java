@@ -77,7 +77,7 @@ public class UsersEntity {
     )
     private List<UsersEntity> friends;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="users_friends",
         joinColumns=@JoinColumn(name="friendId"),
         inverseJoinColumns=@JoinColumn(name="personId")
