@@ -1,10 +1,10 @@
 package io.connectmenow.connect.controller;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.services.UserService;
-import io.connectmenow.connect.services.converters.UserConverter;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,6 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @Autowired
-  private UserConverter userConverter;
-
-  // GET /users?page&pageSize&<filters>
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<UserDTO> listAllUsers(
       @RequestParam(value="firstName", required=false) String firstName,
@@ -46,20 +42,14 @@ public class UserController {
     return users;
   }
 
-  // POST /users
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO createUser(
       @Valid @RequestBody CreateUserDTO createUserDTO) {
-
-    if (userService.isUserExist(userConverter.convertCreateUserDTOToUserDTO(createUserDTO))) {
-      return null;
-    }
 
     return userService.createUser(createUserDTO);
 
   }
 
-  // GET /users/{userId}
   @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO getUser(
       @PathVariable("userId") Long userId) {
@@ -68,7 +58,6 @@ public class UserController {
 
   }
 
-  // POST /users/
   @PostMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO updateUser(
       @PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserDTO updateUserDTO) {
@@ -76,8 +65,6 @@ public class UserController {
     return userService.updateUser(userId, updateUserDTO);
 
   }
-
-  // PATCH /users/ for partial update
   @PatchMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO updateUserPartially(
       @PathVariable("userId") Long userId, @RequestBody UpdateUserDTO updateUserDTO) {
@@ -85,8 +72,6 @@ public class UserController {
     return userService.updateUserPartially(userId, updateUserDTO);
 
   }
-
-  // DELETE /users/
   @DeleteMapping(value = "/{userId}")
   public void deleteUserById(
       @PathVariable("userId") Long userId) {

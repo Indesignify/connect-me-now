@@ -31,22 +31,22 @@ public class UsersEntity {
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
-    @Column(nullable = false)
+    @Column
     private String lastName;
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
-    @Column(nullable = false)
+    @Column
     private String email;
 
     @Column
@@ -71,16 +71,16 @@ public class UsersEntity {
     private UserStatus status;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="users_friends",
-        joinColumns=@JoinColumn(name="personId"),
-        inverseJoinColumns=@JoinColumn(name="friendId")
+    @JoinTable(name = "users_friends",
+    joinColumns = @JoinColumn(name = "personId"),
+    inverseJoinColumns = @JoinColumn(name = "friendId")
     )
     private List<UsersEntity> friends;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="users_friends",
-        joinColumns=@JoinColumn(name="friendId"),
-        inverseJoinColumns=@JoinColumn(name="personId")
+    @JoinTable(name = "users_friends",
+    joinColumns = @JoinColumn(name = "friendId"),
+    inverseJoinColumns = @JoinColumn(name = "personId")
     )
     private List<UsersEntity> friendOf;
 

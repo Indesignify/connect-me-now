@@ -5,7 +5,6 @@ import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.List;
-import org.hibernate.sql.Update;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
