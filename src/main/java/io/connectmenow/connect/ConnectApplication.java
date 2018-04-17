@@ -18,12 +18,12 @@ public class ConnectApplication {
 
   @Bean
   public CommandLineRunner generateInitialData(
-      UserRepository repository, UserConverter userConverter) {
+      UserRepository userRepository, UserConverter userConverter) {
 
     return (args) -> {
 
       // user 1
-      repository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
+      userRepository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
           .firstName("Daniel")
           .lastName("Ivanov")
           .nickname("DanIvan")
@@ -33,7 +33,7 @@ public class ConnectApplication {
           .build()));
 
       // user 2
-      repository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
+      userRepository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
           .firstName("Anna")
           .lastName("Ivanova")
           .nickname("Annushka")
@@ -43,7 +43,7 @@ public class ConnectApplication {
           .build()));
 
       // user 3
-      repository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
+      userRepository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
           .firstName("Natasha")
           .lastName("Ivanova")
           .nickname("Poput4ik")
@@ -53,7 +53,7 @@ public class ConnectApplication {
           .build()));
 
       // user 4
-      repository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
+      userRepository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
           .firstName("Ivan")
           .lastName("Vasilyev")
           .nickname("Ivaichse")
@@ -63,7 +63,7 @@ public class ConnectApplication {
           .build()));
 
       // user 5
-      repository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
+      userRepository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
           .firstName("Gleb")
           .lastName("Gitelman")
           .nickname("EtoYa")
@@ -73,7 +73,7 @@ public class ConnectApplication {
           .build()));
 
       // user 6
-      repository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
+      userRepository.save(userConverter.convertCreateUserDTOToUsersEntity(CreateUserDTO.builder()
           .firstName("Natasha")
           .lastName("Vasilyeva")
           .nickname("Erohina")
@@ -82,10 +82,10 @@ public class ConnectApplication {
           .avatar("http://www.example.com/6.jpg")
           .build()));
 
-      final UsersEntity user1 = repository.findById(1L).get();
-      final UsersEntity user2 = repository.findById(2L).get();
-      final UsersEntity user3 = repository.findById(3L).get();
-      final UsersEntity user4 = repository.findById(4L).get();
+      final UsersEntity user1 = userRepository.findById(1L).get();
+      final UsersEntity user2 = userRepository.findById(2L).get();
+      final UsersEntity user3 = userRepository.findById(3L).get();
+      final UsersEntity user4 = userRepository.findById(4L).get();
 
       user1.getFriends().add(user2);
       user1.getFriends().add(user3);
@@ -99,10 +99,10 @@ public class ConnectApplication {
       user4.getFriends().add(user2);
       user4.getFriends().add(user3);
 
-      repository.save(user1);
-      repository.save(user2);
-      repository.save(user3);
-      repository.save(user4);
+      userRepository.save(user1);
+      userRepository.save(user2);
+      userRepository.save(user3);
+      userRepository.save(user4);
     };
   }
 }
