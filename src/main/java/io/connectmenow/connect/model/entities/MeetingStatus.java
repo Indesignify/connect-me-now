@@ -12,10 +12,14 @@ public enum MeetingStatus {
     }
   },
   PENDING {
-    public String toString() { return "pending"; }
+    public String toString() {
+      return "pending";
+    }
   },
   CANCELLED {
-    public String toString() { return "cancelled"; }
+    public String toString() {
+      return "cancelled";
+    }
   };
 
   public abstract String toString();
