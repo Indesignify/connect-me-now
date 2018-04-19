@@ -35,7 +35,6 @@ public class MeetingsEntity {
   @Enumerated(EnumType.STRING)
   private MeetingStatus meetingStatus;
 
-// @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
   @OneToOne(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
   @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
   private UsersMeetings meetingInitiator;
