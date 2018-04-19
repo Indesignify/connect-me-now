@@ -2,6 +2,7 @@ package io.connectmenow.connect.model.entities;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,59 +31,62 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name = "users", schema = "public", catalog = "postgres")
 public class UsersEntity {
 
-    @Id
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @Column(nullable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column
-    private String firstName;
+  @Column
+  private String firstName;
 
-    @Column
-    private String lastName;
+  @Column
+  private String lastName;
 
-    @Column
-    private String nickname;
+  @Column
+  private String nickname;
 
-    @Column
-    private String password;
+  @Column
+  private String password;
 
-    @Column
-    private String email;
+  @Column
+  private String email;
 
-    @Column
-    private String avatar;
+  @Column
+  private String avatar;
 
-    @Column
-    @CreationTimestamp
-    private Timestamp registrationDate;
+  @Column
+  @CreationTimestamp
+  private Timestamp registrationDate;
 
-    @Column
-    @UpdateTimestamp
-    private Timestamp updatedAt;
+  @Column
+  @UpdateTimestamp
+  private Timestamp updatedAt;
 
-    @Column
-    private Timestamp lastOnline = new Timestamp(System.currentTimeMillis());
+  @Column
+  private Timestamp lastOnline = new Timestamp(System.currentTimeMillis());
 
-    @Column
-    private Boolean isValidated = false;
+  @Column
+  private Boolean isValidated = false;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private UserStatus status;
+  @Column
+  @Enumerated(EnumType.STRING)
+  private UserStatus status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_friends",
-    joinColumns = @JoinColumn(name = "personId"),
-    inverseJoinColumns = @JoinColumn(name = "friendId")
-    )
-    private List<UsersEntity> friends;
+  @OneToMany(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
+  private Set<UsersMeetings> meetingsOfUser;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_friends",
-    joinColumns = @JoinColumn(name = "friendId"),
-    inverseJoinColumns = @JoinColumn(name = "personId")
-    )
-    private List<UsersEntity> friendOf;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "users_friends",
+  joinColumns = @JoinColumn(name = "personId"),
+  inverseJoinColumns = @JoinColumn(name = "friendId")
+  )
+  private List<UsersEntity> friends;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "users_friends",
+  joinColumns = @JoinColumn(name = "friendId"),
+  inverseJoinColumns = @JoinColumn(name = "personId")
+  )
+  private List<UsersEntity> friendOf;
 
 }

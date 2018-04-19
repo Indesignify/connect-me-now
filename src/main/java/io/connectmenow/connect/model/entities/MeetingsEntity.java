@@ -1,5 +1,6 @@
 package io.connectmenow.connect.model.entities;
 
+import java.util.Set;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
@@ -17,27 +18,9 @@ import org.hibernate.annotations.CreationTimestamp;
 public class MeetingsEntity {
 
   @Id
-  @Column(nullable = false)
+  @Column(name = "meeting_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long meetingId;
-
-  @Column
-  private long requesterId;
-
-  @Column
-  private long responderId;
-
-  @Column
-  private Double requesterCoordX;
-
-  @Column
-  private Double requesterCoordY;
-
-  @Column
-  private Double responderCoordX;
-
-  @Column
-  private Double responderCoordY;
+  private Long meetingId;
 
   @Column
   @CreationTimestamp
@@ -51,5 +34,13 @@ public class MeetingsEntity {
 
   @Enumerated(EnumType.STRING)
   private MeetingStatus meetingStatus;
+
+// @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
+  @OneToOne(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
+  @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
+  private UsersMeetings meetingInitiator;
+
+  @OneToMany(mappedBy = "meeting", fetch = FetchType.EAGER)
+  private Set<UsersMeetings> meetingParticipants;
 
 }

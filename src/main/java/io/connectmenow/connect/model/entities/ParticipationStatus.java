@@ -1,25 +1,20 @@
 package io.connectmenow.connect.model.entities;
 
-public enum UserStatus {
+public enum ParticipationStatus {
 
-  ONLINE {
+  ACCEPTED {
     public String toString() {
-      return "online";
+      return "accepted";
     }
   },
-  OFFLINE {
+  PENDING {
     public String toString() {
-      return "offline";
+      return "pending";
     }
   },
-  DND {
+  DECLINED {
     public String toString() {
-      return "dnd";
-    }
-  },
-  INACTIVE {
-    public String toString() {
-      return "inactive";
+      return "declined";
     }
   };
 
