@@ -13,22 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateMeetingsDTO {
 
-  private Long requesterId;
-
-  private Long responderId;
-
-  private Double requesterCoordX;
-
-  private Double requesterCoordY;
-
-  private Double responderCoordX;
-
-  private Double responderCoordY;
-
   private Timestamp createdAt;
 
   private Timestamp expiresAt = new Timestamp(System.currentTimeMillis() + (6*60*60*1000));
 
-  private MeetingStatus meetingStatus = MeetingStatus.PENDING;
+  private MeetingStatus meetingStatus = MeetingStatus.ONGOING;
 
 }

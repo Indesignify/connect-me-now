@@ -16,14 +16,6 @@ public class UpdateMeetingsDTO {
   @NotNull
   private Long meetingId;
 
-  private Double requesterCoordX;
-
-  private Double requesterCoordY;
-
-  private Double responderCoordX;
-
-  private Double responderCoordY;
-
   private MeetingStatus meetingStatus;
 
 }

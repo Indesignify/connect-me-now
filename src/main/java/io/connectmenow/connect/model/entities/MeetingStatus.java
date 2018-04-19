@@ -12,11 +12,6 @@ public enum MeetingStatus {
       return "ongoing";
     }
   },
-  PENDING {
-    public String toString() {
-      return "pending";
-    }
-  },
   CANCELLED {
     public String toString() {
       return "cancelled";

@@ -15,18 +15,6 @@ public class MeetingsDTO {
 
   private long meetingId;
 
-  private long requesterId;
-
-  private long responderId;
-
-  private Double requesterCoordX;
-
-  private Double requesterCoordY;
-
-  private Double responderCoordX;
-
-  private Double responderCoordY;
-
   private Timestamp createdAt;
 
   private Timestamp endedAt;
