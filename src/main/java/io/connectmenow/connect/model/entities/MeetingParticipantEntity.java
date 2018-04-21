@@ -12,27 +12,33 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users_meetings")
-public class UsersMeetings implements Serializable {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@EqualsAndHashCode
+public class MeetingParticipantEntity implements Serializable {
 
   @Id
-  @Column(name = "users_meetings_id")
+  @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long usersMeetingsId;
+  private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
+  @JoinColumn(name = "meeting_id", referencedColumnName = "id")
   private MeetingsEntity meeting;
 
   @OneToOne
-  @JoinColumn(name = "meeting_initiator_id", referencedColumnName = "id")
-  private UsersEntity meetingInitiator;
-
-  @ManyToOne
-  @JoinColumn(name = "meeting_participant_id", referencedColumnName = "id")
-  private UsersEntity meetingParticipant;
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  private UsersEntity user;
 
   @Enumerated(EnumType.STRING)
   private ParticipationStatus participationStatus;

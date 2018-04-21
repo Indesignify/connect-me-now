@@ -35,4 +35,6 @@ public class UserDTO {
 
   private Boolean isValidated;
 
+
+
 }

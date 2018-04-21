@@ -1,11 +1,15 @@
 package io.connectmenow.connect.model.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,13 +18,14 @@ import org.hibernate.annotations.CreationTimestamp;
 @AllArgsConstructor
 @Data
 @Entity
+@EqualsAndHashCode
 @Table(name = "meetings", schema = "public", catalog = "postgres")
 public class MeetingsEntity {
 
   @Id
-  @Column(name = "meeting_id", nullable = false)
+  @Column(name = "id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long meetingId;
+  private Long id;
 
   @Column
   @CreationTimestamp
@@ -35,11 +40,11 @@ public class MeetingsEntity {
   @Enumerated(EnumType.STRING)
   private MeetingStatus meetingStatus;
 
-  @OneToOne(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
-  @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
-  private UsersMeetings meetingInitiator;
+//  @OneToOne(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
+//  @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
+//  private MeetingParticipantEntity meetingInitiator;
 
   @OneToMany(mappedBy = "meeting", fetch = FetchType.EAGER)
-  private Set<UsersMeetings> meetingParticipants;
+  private List<MeetingParticipantEntity> meetingParticipants = new ArrayList<>();
 
 }

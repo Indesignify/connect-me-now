@@ -72,8 +72,8 @@ public class UsersEntity {
   @Enumerated(EnumType.STRING)
   private UserStatus status;
 
-  @OneToMany(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
-  private Set<UsersMeetings> meetingsOfUser;
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  private List<MeetingParticipantEntity> meetingsOfUser;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_friends",

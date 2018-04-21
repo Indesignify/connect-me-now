@@ -5,7 +5,11 @@ import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDTO;
 import io.connectmenow.connect.model.entities.MeetingStatus;
 import io.connectmenow.connect.model.entities.MeetingsEntity;
+import io.connectmenow.connect.model.entities.ParticipationStatus;
+import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
+import io.connectmenow.connect.repository.MeetingParticipantRepository;
 import io.connectmenow.connect.repository.MeetingsRepository;
+import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.services.MeetingsService;
 import io.connectmenow.connect.services.converters.MeetingsConverter;
 import java.sql.Timestamp;
@@ -24,6 +28,12 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   @Autowired
   MeetingsConverter meetingsConverter;
+
+  @Autowired
+  UserRepository userRepository;
+
+  @Autowired
+  MeetingParticipantRepository meetingParticipantRepository;
 
   @Override
   public MeetingsDTO getMeetingById(Long meetingId) {
@@ -53,10 +63,25 @@ public class MeetingsServiceImpl implements MeetingsService {
   @Override
   public MeetingsDTO createMeeting(CreateMeetingsDTO createMeetingsDTO) {
 
+    final MeetingsEntity meetingEntity = meetingsRepository.save(meetingsConverter
+        .convertCreateMeetingsDTOToMeetingsEntity(createMeetingsDTO));
+
+    createMeetingsDTO.getMeetingParticipantsIds().forEach(pId -> {
+      MeetingParticipantEntity meetingParticipantEntity = MeetingParticipantEntity.builder()
+          .meeting(meetingEntity)
+          .participationStatus(ParticipationStatus.INVITED)
+          .user(userRepository.findById(pId).get())
+          .build();
+      MeetingParticipantEntity savedMeetingParticipantEntity =
+          meetingParticipantRepository.save(meetingParticipantEntity);
+      meetingEntity.getMeetingParticipants().add(savedMeetingParticipantEntity);
+    });
+
+    meetingsRepository.save(meetingEntity);
+
     MeetingsDTO newMeeting = meetingsConverter
           .convertMeetingsEntityToMeetingsDTO(meetingsRepository
-              .save(meetingsConverter
-                  .convertCreateMeetingsDTOToMeetingsEntity(createMeetingsDTO)));
+              .findById(meetingEntity.getId()).get());
 
     return newMeeting;
 
