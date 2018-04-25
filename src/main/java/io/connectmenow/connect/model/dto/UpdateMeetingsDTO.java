@@ -14,7 +14,11 @@ import lombok.NoArgsConstructor;
 public class UpdateMeetingsDTO {
 
   @NotNull
-  private Long meetingId;
+  private Long id;
+
+  private Double coordinateX;
+
+  private Double coordinateY;
 
   private MeetingStatus meetingStatus;
 

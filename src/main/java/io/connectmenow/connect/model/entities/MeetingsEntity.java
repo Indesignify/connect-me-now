@@ -40,6 +40,12 @@ public class MeetingsEntity {
   @Enumerated(EnumType.STRING)
   private MeetingStatus meetingStatus;
 
+  @Column
+  private Double coordinateX;
+
+  @Column
+  private Double coordinateY;
+
 //  @OneToOne(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
 //  @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
 //  private MeetingParticipantEntity meetingInitiator;

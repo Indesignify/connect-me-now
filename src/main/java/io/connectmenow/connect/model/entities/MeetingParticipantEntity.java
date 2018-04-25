@@ -43,4 +43,10 @@ public class MeetingParticipantEntity implements Serializable {
   @Enumerated(EnumType.STRING)
   private ParticipationStatus participationStatus;
 
+  @Column
+  private Double userCoordinateX;
+
+  @Column
+  private Double userCoordinateY;
+
 }

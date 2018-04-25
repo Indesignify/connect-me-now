@@ -1,5 +1,6 @@
 package io.connectmenow.connect.model.dto;
 
+import io.connectmenow.connect.model.entities.ParticipationStatus;
 import io.connectmenow.connect.model.entities.UserStatus;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,10 @@ public class UserParticipantDTO {
 
   private String nickname;
 
-  private UserStatus status;
+  private ParticipationStatus participationStatus;
+
+  private Double userCoordinateX;
+
+  private Double userCoordinateY;
 
 }

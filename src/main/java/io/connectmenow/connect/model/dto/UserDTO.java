@@ -1,7 +1,9 @@
 package io.connectmenow.connect.model.dto;
 
+import io.connectmenow.connect.model.entities.MeetingsEntity;
 import io.connectmenow.connect.model.entities.UserStatus;
 import java.sql.Timestamp;
+import java.util.List;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

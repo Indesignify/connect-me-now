@@ -14,15 +14,12 @@ import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring", uses = UserConverter.class)
 @Component
 public interface MeetingsConverter {
 
-//  @Autowired
-//  UserConverter userConverter;
   UserConverter userConverter = Mappers.getMapper(UserConverter.class);
   MeetingsConverter meetingsConverter = Mappers.getMapper(MeetingsConverter.class);
 
@@ -33,7 +30,7 @@ public interface MeetingsConverter {
   List<MeetingsDTO> convertMeetingsEntityToMeetingsDTOList(List<MeetingsEntity> meetingsEntityList);
 
   // MeetingsEntity <-> CreateMeetingsDTO
-  @Mapping(target = "meetingParticipants", ignore = true)
+  //@Mapping(target = "meetingParticipants", ignore = true)
   MeetingsEntity convertCreateMeetingsDTOToMeetingsEntity(CreateMeetingsDTO createMeetingsDTO);
   CreateMeetingsDTO convertMeetingsEntityToCreateMeetingsDTO(MeetingsEntity meetingsEntity);
 
@@ -52,7 +49,16 @@ public interface MeetingsConverter {
   }
 
   default UserParticipantDTO convert(MeetingParticipantEntity meetingParticipantEntity) {
-    return userConverter.convertUsersEntityToUserParticipantDTO(meetingParticipantEntity.getUser());
+    UsersEntity usersEntity = meetingParticipantEntity.getUser();
+
+    UserParticipantDTO userParticipantDTO =
+        userConverter.convertUsersEntityToUserParticipantDTO(usersEntity);
+
+    userParticipantDTO.setParticipationStatus(meetingParticipantEntity.getParticipationStatus());
+    userParticipantDTO.setUserCoordinateX(meetingParticipantEntity.getUserCoordinateX());
+    userParticipantDTO.setUserCoordinateY(meetingParticipantEntity.getUserCoordinateY());
+
+    return userParticipantDTO;
   }
 
 }

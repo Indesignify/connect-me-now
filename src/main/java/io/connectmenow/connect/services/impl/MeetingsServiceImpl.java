@@ -71,6 +71,8 @@ public class MeetingsServiceImpl implements MeetingsService {
           .meeting(meetingEntity)
           .participationStatus(ParticipationStatus.INVITED)
           .user(userRepository.findById(pId).get())
+          .userCoordinateX(0.0)
+          .userCoordinateY(0.0)
           .build();
       MeetingParticipantEntity savedMeetingParticipantEntity =
           meetingParticipantRepository.save(meetingParticipantEntity);
@@ -90,7 +92,7 @@ public class MeetingsServiceImpl implements MeetingsService {
   @Override
   public MeetingsDTO updateMeeting(Long meetingId, UpdateMeetingsDTO updateMeetingsDTO) {
 
-    updateMeetingsDTO.setMeetingId(meetingId);
+    updateMeetingsDTO.setId(meetingId);
 
     MeetingsEntity meetingsEntityToUpdate = meetingsConverter
             .convertUpdateMeetingsDTOToMeetingsEntity(updateMeetingsDTO);

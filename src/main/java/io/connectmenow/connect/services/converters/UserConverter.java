@@ -7,6 +7,7 @@ import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
