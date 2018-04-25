@@ -24,6 +24,6 @@ public class MeetingsDTO {
 
   private MeetingStatus meetingStatus;
 
-  private Set<UserDTO> meetingParticipants;
+  private Set<UserParticipantDTO> meetingParticipants;
 
 }

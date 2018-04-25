@@ -4,8 +4,10 @@ import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
+import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.model.entities.MeetingsEntity;
+import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,14 +45,14 @@ public interface MeetingsConverter {
 //  MeetingsDTO convertCreateMeetingDTOToMeetingsDTO(CreateMeetingsDTO createMeetingsDTO);
 //  CreateMeetingsDTO convertMeetingsDTOToCreateMeetingsDTO(MeetingsDTO meetingsDTO);
 
-  default Set<UserDTO> convert(Set<MeetingParticipantEntity> meetingParticipantEntities) {
-    Set<UserDTO> userDTOSet = new HashSet<>();
+  default Set<UserParticipantDTO> convert(Set<MeetingParticipantEntity> meetingParticipantEntities) {
+    Set<UserParticipantDTO> userDTOSet = new HashSet<>();
     meetingParticipantEntities.forEach(entity -> userDTOSet.add(convert(entity)));
     return userDTOSet;
   }
 
-  default UserDTO convert(MeetingParticipantEntity meetingParticipantEntity) {
-    return userConverter.convertUsersEntityToUserDTO(meetingParticipantEntity.getUser());
+  default UserParticipantDTO convert(MeetingParticipantEntity meetingParticipantEntity) {
+    return userConverter.convertUsersEntityToUserParticipantDTO(meetingParticipantEntity.getUser());
   }
 
 }

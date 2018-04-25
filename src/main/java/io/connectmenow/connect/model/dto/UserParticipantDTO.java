@@ -1,7 +1,6 @@
 package io.connectmenow.connect.model.dto;
 
 import io.connectmenow.connect.model.entities.UserStatus;
-import java.sql.Timestamp;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserParticipantDTO {
 
   @NotNull
   private long id;
@@ -23,16 +22,6 @@ public class UserDTO {
 
   private String nickname;
 
-  private String email;
-
-  private String avatar;
-
-  private Timestamp registrationDate;
-
-  private Timestamp lastOnline;
-
   private UserStatus status;
-
-  private Boolean isValidated;
 
 }

@@ -3,6 +3,7 @@ package io.connectmenow.connect.services.converters;
 import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
+import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -33,5 +34,8 @@ public interface UserConverter {
   // UserDTO <-> CreateUserDTO
   UserDTO convertCreateUserDTOToUserDTO(CreateUserDTO createUserDTO);
   CreateUserDTO convertUserDTOToCreateUserDTO(UserDTO userDTO);
+
+  // UsersEntity <-> UserParticipantDTO
+  UserParticipantDTO convertUsersEntityToUserParticipantDTO(UsersEntity usersEntity);
 
 }
