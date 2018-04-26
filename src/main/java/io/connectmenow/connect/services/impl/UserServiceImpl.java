@@ -1,6 +1,7 @@
 package io.connectmenow.connect.services.impl;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.entities.UserStatus;
@@ -34,6 +35,17 @@ public class UserServiceImpl implements UserService {
     }
 
     return userConverter.convertUsersEntityToUserDTO(usersEntity);
+
+  }
+
+  @Override
+  public List<MeetingsDTO> getUserMeetingsById(Long userId) {
+
+    List<MeetingsDTO> meetingsOfUser = new ArrayList<>();
+
+    userRepository.findById(userId).get();
+
+    return meetingsOfUser;
 
   }
 

@@ -1,6 +1,7 @@
 package io.connectmenow.connect.services;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.List;
 public interface UserService {
 
   UserDTO getUserById(Long id);
+
+  List<MeetingsDTO> getUserMeetingsById(Long userId);
 
   List<UserDTO> getAllUsers(String firstName, String lastName, String nickname, String email);
 

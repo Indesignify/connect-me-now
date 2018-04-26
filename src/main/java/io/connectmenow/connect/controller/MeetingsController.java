@@ -3,6 +3,7 @@ package io.connectmenow.connect.controller;
 import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDTO;
+import io.connectmenow.connect.model.entities.MeetingsEntity;
 import io.connectmenow.connect.services.MeetingsService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

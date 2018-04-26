@@ -8,6 +8,6 @@ public enum ParticipationStatus {
 
   INVITED,
 
-  DECLINED
+  REJECTED
 
 }

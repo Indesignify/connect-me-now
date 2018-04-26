@@ -40,6 +40,7 @@ public class UserController {
     }
 
     return users;
+
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,6 +59,14 @@ public class UserController {
 
   }
 
+  @GetMapping(value = "/{userId}/meetings", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<MeetingsDTO> getMeetingsOfUser(
+      @PathVariable("userId") Long userId) {
+
+    return userService.getUserMeetingsById(userId);
+
+  }
+
   @PostMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO updateUser(
       @PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserDTO updateUserDTO) {
@@ -65,6 +74,7 @@ public class UserController {
     return userService.updateUser(userId, updateUserDTO);
 
   }
+
   @PatchMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO updateUserPartially(
       @PathVariable("userId") Long userId, @RequestBody UpdateUserDTO updateUserDTO) {
@@ -72,6 +82,7 @@ public class UserController {
     return userService.updateUserPartially(userId, updateUserDTO);
 
   }
+
   @DeleteMapping(value = "/{userId}")
   public void deleteUserById(
       @PathVariable("userId") Long userId) {
