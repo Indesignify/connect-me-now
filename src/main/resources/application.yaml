@@ -16,5 +16,10 @@ spring:
           lob:
             non_contextual_creation: true
 
+logging:
+  level:
+    io.connectmenow.connect: DEBUG
+    org.hibernate: INFO
+
 server:
   port: 8080
