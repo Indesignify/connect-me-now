@@ -1,7 +1,7 @@
 package io.connectmenow.connect.model.entities;
 
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,6 +29,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @AllArgsConstructor
 @Data
 @Entity
+@EqualsAndHashCode(exclude = {
+    "meetingsOfUser", "friends", "friendOf", "updatedAt", "lastOnline", "isValidated"})
 @Table(name = "users", schema = "public", catalog = "postgres")
 public class UsersEntity {
 
@@ -73,20 +76,20 @@ public class UsersEntity {
   private UserStatus status;
 
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  private List<MeetingParticipantEntity> meetingsOfUser;
+  private Set<MeetingParticipantEntity> meetingsOfUser = new HashSet<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_friends",
-  joinColumns = @JoinColumn(name = "personId"),
-  inverseJoinColumns = @JoinColumn(name = "friendId")
+      joinColumns = @JoinColumn(name = "personId"),
+      inverseJoinColumns = @JoinColumn(name = "friendId")
   )
-  private List<UsersEntity> friends;
+  private Set<UsersEntity> friends = new HashSet<>();
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_friends",
-  joinColumns = @JoinColumn(name = "friendId"),
-  inverseJoinColumns = @JoinColumn(name = "personId")
+      joinColumns = @JoinColumn(name = "friendId"),
+      inverseJoinColumns = @JoinColumn(name = "personId")
   )
-  private List<UsersEntity> friendOf;
+  private Set<UsersEntity> friendOf = new HashSet<>();
 
 }

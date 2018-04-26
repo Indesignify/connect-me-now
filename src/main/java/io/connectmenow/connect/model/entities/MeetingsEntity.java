@@ -1,11 +1,18 @@
 package io.connectmenow.connect.model.entities;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,8 +24,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity
 @EqualsAndHashCode
+@Entity
 @Table(name = "meetings", schema = "public", catalog = "postgres")
 public class MeetingsEntity {
 
@@ -51,6 +58,6 @@ public class MeetingsEntity {
 //  private MeetingParticipantEntity meetingInitiator;
 
   @OneToMany(mappedBy = "meeting", fetch = FetchType.EAGER)
-  private List<MeetingParticipantEntity> meetingParticipants = new ArrayList<>();
+  private Set<MeetingParticipantEntity> meetingParticipants = new HashSet<>();
 
 }

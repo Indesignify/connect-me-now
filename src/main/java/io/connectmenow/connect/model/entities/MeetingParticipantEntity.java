@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"user", "meeting"})
 public class MeetingParticipantEntity implements Serializable {
 
   @Id
@@ -32,11 +31,17 @@ public class MeetingParticipantEntity implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "meeting_id", insertable = false, updatable = false)
+  private Long meetingId;
+
   @ManyToOne
   @JoinColumn(name = "meeting_id", referencedColumnName = "id")
   private MeetingsEntity meeting;
 
-  @OneToOne
+  @Column(name = "user_id", insertable = false, updatable = false)
+  private Long userId;
+
+  @ManyToOne
   @JoinColumn(name = "user_id", referencedColumnName = "id")
   private UsersEntity user;
 
