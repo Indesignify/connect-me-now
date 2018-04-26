@@ -38,7 +38,7 @@ public class MeetingsServiceImpl implements MeetingsService {
   @Override
   public MeetingsDTO getMeetingById(Long meetingId) {
 
-    final MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).orElse(null);
+    MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).orElse(null);
 
     if (meetingsEntity == null) {
       return null;
