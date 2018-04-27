@@ -2,8 +2,11 @@ package io.connectmenow.connect.services;
 
 import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
-import io.connectmenow.connect.model.dto.UpdateMeetingsDTO;
+import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
+import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import java.util.List;
+import java.util.Set;
 
 public interface MeetingsService {
 
@@ -11,11 +14,20 @@ public interface MeetingsService {
 
   List<MeetingsDTO> getAllMeetings();
 
+  List<UserParticipantDTO> getMeetingParticipants(Long meetingId);
+
   MeetingsDTO createMeeting(CreateMeetingsDTO createMeetingsDTO);
 
-  MeetingsDTO updateMeeting(Long meetingId, UpdateMeetingsDTO updateMeetingsDTO);
+  MeetingsDTO updateMeetingData(Long meetingId, UpdateMeetingsDataDTO updateMeetingsDataDTO);
+
+  MeetingsDTO updateMeetingParticipants(Long meetingId,
+      UpdateMeetingsParticipantsDTO updateMeetingsParticipantsDTO);
 
   MeetingsDTO cancelMeeting(Long meetingId);
+
+  void acceptMeeting(Long userId, Long meetingId);
+
+  void rejectMeeting(Long userId, Long meetingId);
 
   MeetingsDTO completeMeeting(Long meetingId);
 

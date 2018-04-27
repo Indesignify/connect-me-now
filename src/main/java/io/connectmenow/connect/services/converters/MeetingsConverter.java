@@ -2,13 +2,14 @@ package io.connectmenow.connect.services.converters;
 
 import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
-import io.connectmenow.connect.model.dto.UpdateMeetingsDTO;
+import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.model.entities.MeetingsEntity;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.mapstruct.Mapper;
@@ -29,22 +30,25 @@ public interface MeetingsConverter {
   List<MeetingsDTO> convertMeetingsEntityToMeetingsDTOList(List<MeetingsEntity> meetingsEntityList);
 
   // MeetingsEntity <-> CreateMeetingsDTO
-  //@Mapping(target = "meetingParticipants", ignore = true)
   MeetingsEntity convertCreateMeetingsDTOToMeetingsEntity(CreateMeetingsDTO createMeetingsDTO);
   CreateMeetingsDTO convertMeetingsEntityToCreateMeetingsDTO(MeetingsEntity meetingsEntity);
 
-  // MeetingsEntity <-> UpdateMeetingsDTO
-  MeetingsEntity convertUpdateMeetingsDTOToMeetingsEntity(UpdateMeetingsDTO updateMeetingsDTO);
-  UpdateMeetingsDTO convertMeetingsEntityToUpdateMeetingsDTO(MeetingsEntity meetingsEntity);
+  // MeetingsEntity <-> UpdateMeetingsDataDTO
+  MeetingsEntity convertUpdateMeetingsDataDTOToMeetingsEntity(UpdateMeetingsDataDTO updateMeetingsDataDTO);
+  UpdateMeetingsDataDTO convertMeetingsEntityToUpdateMeetingsDataDTO(MeetingsEntity meetingsEntity);
+
+  // THIS IS TOTALLY WRONG AND NEED TO BE FIXED
+  MeetingParticipantEntity convertUserParticipantDTOToMeetingParticipantEntity(
+      UserParticipantDTO userParticipantDTO);
 
   // MeetingsDTO <-> CreateMeetingsDTO
 //  MeetingsDTO convertCreateMeetingDTOToMeetingsDTO(CreateMeetingsDTO createMeetingsDTO);
 //  CreateMeetingsDTO convertMeetingsDTOToCreateMeetingsDTO(MeetingsDTO meetingsDTO);
 
-  default List<UserParticipantDTO> convert(Set<MeetingParticipantEntity> meetingParticipantEntities) {
-    List<UserParticipantDTO> userDTOList = new ArrayList<>();
-    meetingParticipantEntities.forEach(entity -> userDTOList.add(convert(entity)));
-    return userDTOList;
+  default Set<UserParticipantDTO> convert(Set<MeetingParticipantEntity> meetingParticipantEntities) {
+    Set<UserParticipantDTO> userDTOSet = new LinkedHashSet<>();
+    meetingParticipantEntities.forEach(entity -> userDTOSet.add(convert(entity)));
+    return userDTOSet;
   }
 
   default UserParticipantDTO convert(MeetingParticipantEntity meetingParticipantEntity) {

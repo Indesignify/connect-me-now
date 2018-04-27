@@ -1,7 +1,7 @@
 package io.connectmenow.connect.model.dto;
 
-import io.connectmenow.connect.model.entities.MeetingStatus;
 import java.util.List;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,17 +12,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateMeetingsDTO {
+public class UpdateMeetingsParticipantsDTO {
 
   @NotNull
   private Long id;
 
-  private Double coordinateX;
-
-  private Double coordinateY;
-
-  private MeetingStatus meetingStatus;
-
-  private List<UserParticipantDTO> meetingParticipants;
+  private Set<UserParticipantDTO> newParticipants;
 
 }

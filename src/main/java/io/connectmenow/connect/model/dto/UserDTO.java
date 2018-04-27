@@ -1,9 +1,11 @@
 package io.connectmenow.connect.model.dto;
 
+import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.model.entities.MeetingsEntity;
 import io.connectmenow.connect.model.entities.UserStatus;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,5 +38,7 @@ public class UserDTO {
   private UserStatus status;
 
   private Boolean isValidated;
+
+  private Set<MeetingParticipantEntity> meetingsOfUser;
 
 }

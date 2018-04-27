@@ -2,6 +2,7 @@ package io.connectmenow.connect.model.dto;
 
 import io.connectmenow.connect.model.entities.MeetingsEntity;
 import java.util.List;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 
 public class UserMeetingsDTO {
@@ -15,6 +16,6 @@ public class UserMeetingsDTO {
 
   private String nickname; 
 
-  private List<MeetingsEntity> meetingsOfUser;
+  private Set<MeetingsEntity> meetingsOfUser;
 
 }

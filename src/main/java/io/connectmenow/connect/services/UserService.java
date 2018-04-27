@@ -5,13 +5,14 @@ import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import java.util.List;
+import java.util.Set;
 
 
 public interface UserService {
 
   UserDTO getUserById(Long id);
 
-  List<MeetingsDTO> getUserMeetingsById(Long userId);
+  Set<MeetingsDTO> getUserMeetingsById(Long userId);
 
   List<UserDTO> getAllUsers(String firstName, String lastName, String nickname, String email);
 

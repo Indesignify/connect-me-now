@@ -10,7 +10,9 @@ import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.services.UserService;
 import io.connectmenow.connect.services.converters.UserConverter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDTO getUserById(final Long id) {
 
-    final UsersEntity usersEntity = userRepository.findById(id).orElse(null);
+    UsersEntity usersEntity = userRepository.findById(id).orElse(null);
 
     if (usersEntity == null) {
       return null;
@@ -38,12 +40,13 @@ public class UserServiceImpl implements UserService {
 
   }
 
+  // stub
   @Override
-  public List<MeetingsDTO> getUserMeetingsById(Long userId) {
+  public Set<MeetingsDTO> getUserMeetingsById(Long userId) {
 
-    List<MeetingsDTO> meetingsOfUser = new ArrayList<>();
+    Set<MeetingsDTO> meetingsOfUser = new HashSet<>();
 
-    userRepository.findById(userId).get();
+    UsersEntity usersEntity = userRepository.findById(userId).get();
 
     return meetingsOfUser;
 

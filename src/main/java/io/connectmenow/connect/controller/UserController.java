@@ -6,6 +6,7 @@ import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.services.UserService;
 import java.util.List;
+import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -60,7 +61,7 @@ public class UserController {
   }
 
   @GetMapping(value = "/{userId}/meetings", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<MeetingsDTO> getMeetingsOfUser(
+  public Set<MeetingsDTO> getMeetingsOfUser(
       @PathVariable("userId") Long userId) {
 
     return userService.getUserMeetingsById(userId);

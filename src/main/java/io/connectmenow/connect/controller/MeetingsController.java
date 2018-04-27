@@ -2,13 +2,17 @@ package io.connectmenow.connect.controller;
 
 import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
-import io.connectmenow.connect.model.dto.UpdateMeetingsDTO;
-import io.connectmenow.connect.model.entities.MeetingsEntity;
+import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
+import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UserParticipantDTO;
+import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.services.MeetingsService;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,11 +42,35 @@ public class MeetingsController {
 
   }
 
+  @GetMapping(value = "/{meetingId}/participants", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<UserParticipantDTO> getMeetingParticipants(
+      @PathVariable("meetingId") Long meetingId) {
+
+    return meetingsService.getMeetingParticipants(meetingId);
+
+  }
+
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public MeetingsDTO createMeeting(
       @RequestBody CreateMeetingsDTO createMeetingsDTO) {
 
     return meetingsService.createMeeting(createMeetingsDTO);
+
+  }
+
+  @PostMapping(value = "/{meetingId}/{userId}/accept", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void acceptMeeting(
+      @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
+
+    meetingsService.acceptMeeting(userId, meetingId);
+
+  }
+
+  @PostMapping(value = "/{meetingId}/{userId}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void rejectMeeting(
+      @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
+
+    meetingsService.rejectMeeting(userId, meetingId);
 
   }
 
@@ -65,9 +93,18 @@ public class MeetingsController {
   @PutMapping(value = "/{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public MeetingsDTO updateMeetingData(
       @PathVariable("meetingId") Long meetingId,
-      @RequestBody UpdateMeetingsDTO updateMeetingsDTO) {
+      @RequestBody UpdateMeetingsDataDTO updateMeetingsDataDTO) {
 
-    return meetingsService.updateMeeting(meetingId, updateMeetingsDTO);
+    return meetingsService.updateMeetingData(meetingId, updateMeetingsDataDTO);
+
+  }
+
+  @PatchMapping(value = "/{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public MeetingsDTO updateMeetingParticipants(
+      @PathVariable("meetingId") Long meetingId,
+      @RequestBody UpdateMeetingsParticipantsDTO updateMeetingsParticipantsDTO) {
+
+    return meetingsService.updateMeetingParticipants(meetingId, updateMeetingsParticipantsDTO);
 
   }
 

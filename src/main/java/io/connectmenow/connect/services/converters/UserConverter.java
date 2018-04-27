@@ -4,7 +4,9 @@ import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
+import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.model.entities.UsersEntity;
+import java.util.ArrayList;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,6 +20,7 @@ public interface UserConverter {
   UsersEntity convertUserDTOToUsersEntity(UserDTO userDTO);
   List<UsersEntity> convertUserDTOToUsersEntityList(List<UserDTO> userDTOs);
   UserDTO convertUsersEntityToUserDTO(UsersEntity usersEntity);
+
   List<UserDTO> convertUsersEntityToUserDTOList(List<UsersEntity> usersEntities);
 
   // UsersEntity <-> CreateUserDTO

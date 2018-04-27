@@ -1,5 +1,7 @@
 package io.connectmenow.connect.model.dto;
 
+import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -31,5 +33,7 @@ public class UpdateUserDTO {
   private String email;
 
   private String avatar;
+
+  private Set<MeetingParticipantEntity> meetingsOfUser;
 
 }

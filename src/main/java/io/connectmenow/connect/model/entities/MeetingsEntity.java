@@ -24,8 +24,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode
 @Entity
+@EqualsAndHashCode
 @Table(name = "meetings", schema = "public", catalog = "postgres")
 public class MeetingsEntity {
 

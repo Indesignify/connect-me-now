@@ -2,7 +2,6 @@ package io.connectmenow.connect.model.dto;
 
 import io.connectmenow.connect.model.entities.MeetingStatus;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +22,6 @@ public class CreateMeetingsDTO {
 
   private Double coordinateY;
 
-  private List<Long> meetingParticipantsIds;
+  private Set<Long> meetingParticipantsIds;
 
 }
