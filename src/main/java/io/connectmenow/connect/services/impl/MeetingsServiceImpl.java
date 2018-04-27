@@ -178,16 +178,24 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   }
 
-  // stub
   @Override
   public void acceptMeeting(Long userId, Long meetingId) {
-    return;
+
+    MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
+        .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
+
+    meetingParticipantEntity.setParticipationStatus(ParticipationStatus.ACCEPTED);
+
   }
 
-  // stub
   @Override
   public void rejectMeeting(Long userId, Long meetingId) {
-    return;
+
+    MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
+        .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
+
+    meetingParticipantEntity.setParticipationStatus(ParticipationStatus.REJECTED);
+
   }
 
   @Override

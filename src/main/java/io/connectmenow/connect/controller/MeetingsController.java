@@ -66,7 +66,7 @@ public class MeetingsController {
 
   }
 
-  @PostMapping(value = "/{meetingId}/{userId}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/{meetingId}/{userId}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
   public void rejectMeeting(
       @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
 
@@ -74,7 +74,7 @@ public class MeetingsController {
 
   }
 
-  @PostMapping(value = "/{meetingId}/complete", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/{meetingId}/complete", produces = MediaType.APPLICATION_JSON_VALUE)
   public MeetingsDTO completeMeeting(
       @PathVariable("meetingId") Long meetingId) {
 

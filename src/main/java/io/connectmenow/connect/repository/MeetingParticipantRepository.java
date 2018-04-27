@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MeetingParticipantRepository extends CrudRepository<MeetingParticipantEntity, Long> {
 
+  MeetingParticipantEntity findMeetingParticipantEntityByUserIdAndMeetingId(Long userId, Long meetingId);
+
 }
