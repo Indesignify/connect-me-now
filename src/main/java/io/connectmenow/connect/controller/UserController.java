@@ -28,7 +28,7 @@ public class UserController {
   private UserService userService;
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<UserDTO> listAllUsers(
+  public List<UserDTO> getUsersByParams(
       @RequestParam(value="firstName", required=false) String firstName,
       @RequestParam(value="lastName", required=false) String lastName,
       @RequestParam(value="nickname", required=false) String nickname,
@@ -61,7 +61,7 @@ public class UserController {
   }
 
   @GetMapping(value = "/{userId}/meetings", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Set<MeetingsDTO> getMeetingsOfUser(
+  public Set<MeetingsDTO> getUserMeetings(
       @PathVariable("userId") Long userId) {
 
     return userService.getUserMeetingsById(userId);
@@ -85,7 +85,7 @@ public class UserController {
   }
 
   @DeleteMapping(value = "/{userId}")
-  public void deleteUserById(
+  public void deleteUser(
       @PathVariable("userId") Long userId) {
 
     userService.deleteUserById(userId);

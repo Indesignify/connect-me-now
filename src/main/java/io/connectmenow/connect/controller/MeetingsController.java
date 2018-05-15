@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +44,7 @@ public class MeetingsController {
   }
 
   @GetMapping(value = "/{meetingId}/participants", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<UserParticipantDTO> getMeetingParticipants(
+  public Set<UserParticipantDTO> getMeetingParticipants(
       @PathVariable("meetingId") Long meetingId) {
 
     return meetingsService.getMeetingParticipants(meetingId);
