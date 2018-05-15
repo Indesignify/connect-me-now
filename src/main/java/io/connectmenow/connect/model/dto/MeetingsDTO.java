@@ -17,6 +17,8 @@ public class MeetingsDTO {
 
   private Long id;
 
+  private String title;
+
   private Timestamp createdAt;
 
   private Timestamp endedAt;

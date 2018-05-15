@@ -1,6 +1,6 @@
 package io.connectmenow.connect.model.dto;
 
-import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
+import io.connectmenow.connect.model.entities.UserStatus;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -34,6 +34,6 @@ public class UpdateUserDTO {
 
   private String avatar;
 
-  private Set<MeetingParticipantEntity> meetingsOfUser;
+  private UserStatus status;
 
 }

@@ -1,6 +1,5 @@
 package io.connectmenow.connect.model.dto;
 
-import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -1,11 +1,18 @@
 package io.connectmenow.connect.model.dto;
 
 import io.connectmenow.connect.model.entities.MeetingsEntity;
-import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class UserMeetingsDTO {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserMeetingInfoDTO {
 
   @NotNull
   private long id;
@@ -14,8 +21,6 @@ public class UserMeetingsDTO {
 
   private String lastName;
 
-  private String nickname; 
-
-  private Set<MeetingsEntity> meetingsOfUser;
+  private String nickname;
 
 }

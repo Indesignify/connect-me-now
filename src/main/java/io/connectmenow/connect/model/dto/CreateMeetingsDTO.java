@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateMeetingsDTO {
 
+  private String title;
+
   private Timestamp expiresAt = new Timestamp(System.currentTimeMillis() + (6*60*60*1000));
 
   private MeetingStatus meetingStatus = MeetingStatus.ONGOING;

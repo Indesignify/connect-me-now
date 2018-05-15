@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class UserParticipantDTO {
 
   @NotNull
-  private long id;
+  private Long id;
 
   private String firstName;
 

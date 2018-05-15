@@ -16,6 +16,8 @@ public class UpdateMeetingsDataDTO {
   @NotNull
   private Long id;
 
+  private String title;
+
   private Double coordinateX;
 
   private Double coordinateY;
