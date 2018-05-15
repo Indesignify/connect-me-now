@@ -84,7 +84,12 @@ public class UserServiceImpl implements UserService {
 
     updateUserDTO.setId(userId);
 
+    UsersEntity oldUsersEntity = userRepository.findById(userId).get();
+
     UsersEntity updatedUsersEntity = userConverter.convertUpdateUserDTOToUsersEntity(updateUserDTO);
+
+    updatedUsersEntity.setRegistrationDate(oldUsersEntity.getRegistrationDate());
+    updatedUsersEntity.setMeetingsOfUser(oldUsersEntity.getMeetingsOfUser());
 
     userRepository.save(updatedUsersEntity);
 
@@ -123,6 +128,10 @@ public class UserServiceImpl implements UserService {
 
     if (updateUserDTO.getAvatar() != null) {
       usersEntityToUpdate.setAvatar(updateUserDTO.getAvatar());
+    }
+
+    if (updateUserDTO.getStatus() != null) {
+      usersEntityToUpdate.setStatus(updateUserDTO.getStatus());
     }
 
     return userConverter.convertUsersEntityToUserDTO(usersEntityToUpdate);

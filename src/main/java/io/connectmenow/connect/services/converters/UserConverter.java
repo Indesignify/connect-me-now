@@ -4,17 +4,20 @@ import io.connectmenow.connect.model.dto.CreateUserDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
-import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.model.entities.UsersEntity;
-import java.util.ArrayList;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = MeetingParticipantConverter.class)
 @Component
 public interface UserConverter {
+
+  MeetingParticipantConverter meetingParticipantConverter
+      = Mappers.getMapper(MeetingParticipantConverter.class);
 
   // UsersEntity <-> UserDTO
   UsersEntity convertUserDTOToUsersEntity(UserDTO userDTO);

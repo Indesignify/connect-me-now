@@ -7,21 +7,38 @@ import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.model.entities.MeetingsEntity;
 import io.connectmenow.connect.model.entities.UsersEntity;
-import java.util.ArrayList;
+import io.connectmenow.connect.repository.MeetingParticipantRepository;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import org.aspectj.apache.bcel.Repository;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
+import org.springframework.data.repository.core.EntityInformation;
+import org.springframework.data.repository.core.RepositoryInformation;
+import org.springframework.data.repository.core.RepositoryMetadata;
+import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", uses = UserConverter.class)
+@Mapper(componentModel = "spring",
+        uses = {
+            UserConverter.class,
+            MeetingParticipantRepository.class
+        })
 @Component
 public interface MeetingsConverter {
 
   UserConverter userConverter = Mappers.getMapper(UserConverter.class);
   MeetingsConverter meetingsConverter = Mappers.getMapper(MeetingsConverter.class);
+
+//  @Autowired
+//  MeetingParticipantRepository meetingParticipantRepository
+//      = (MeetingParticipantRepository) Repository.getRepository();
 
   // MeetingsEntity <-> MeetingsDTO
 //  MeetingsEntity convertMeetingsDTOToMeetingsEntity(MeetingsDTO meetingsDTO);
@@ -38,6 +55,14 @@ public interface MeetingsConverter {
   UpdateMeetingsDataDTO convertMeetingsEntityToUpdateMeetingsDataDTO(MeetingsEntity meetingsEntity);
 
   // THIS IS TOTALLY WRONG AND NEED TO BE FIXED
+//  default MeetingParticipantEntity convertUserParticipantDTOToMeetingParticipantEntity(
+//      UserParticipantDTO userParticipantDTO) {
+//    MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
+//              .findMeetingParticipantEntityByUserIdAndMeetingId(
+//                  userParticipantDTO.getUserId(), userParticipantDTO.getMeetingId());
+//
+//    return meetingParticipantEntity;
+//  }
   MeetingParticipantEntity convertUserParticipantDTOToMeetingParticipantEntity(
       UserParticipantDTO userParticipantDTO);
 

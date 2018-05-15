@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(exclude = {"user", "meeting"})
-public class MeetingParticipantEntity implements Serializable {
+public class MeetingParticipantEntity {
 
   @Id
   @Column(name = "id")

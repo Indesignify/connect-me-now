@@ -14,7 +14,7 @@ public interface MeetingsService {
 
   List<MeetingsDTO> getAllMeetings();
 
-  List<UserParticipantDTO> getMeetingParticipants(Long meetingId);
+  Set<UserParticipantDTO> getMeetingParticipants(Long meetingId);
 
   MeetingsDTO createMeeting(CreateMeetingsDTO createMeetingsDTO);
 

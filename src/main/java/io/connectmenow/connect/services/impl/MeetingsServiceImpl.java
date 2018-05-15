@@ -17,7 +17,6 @@ import io.connectmenow.connect.services.MeetingsService;
 import io.connectmenow.connect.services.converters.MeetingsConverter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
@@ -65,17 +64,16 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   }
 
-  // stub
   @Override
-  public List<UserParticipantDTO> getMeetingParticipants(Long meetingId) {
+  public Set<UserParticipantDTO> getMeetingParticipants(Long meetingId) {
 
     MeetingsEntity meeting = meetingsRepository.findById(meetingId).get();
 
     Set<MeetingParticipantEntity> meetingParticipantEntities = meeting.getMeetingParticipants();
 
-//    return meetingsConverter.convert(meetingParticipantEntities);
+    Set<UserParticipantDTO> participants = meetingsConverter.convert(meetingParticipantEntities);
 
-    return null;
+    return participants;
 
   }
 
@@ -120,6 +118,10 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     MeetingsEntity meetingsEntityToUpdate = meetingsRepository.findById(meetingId).orElse(null);
 
+    if (updateMeetingsDataDTO.getTitle() != null) {
+      meetingsEntityToUpdate.setTitle(updateMeetingsDataDTO.getTitle());
+    }
+
     if (updateMeetingsDataDTO.getMeetingStatus() != null) {
       meetingsEntityToUpdate.setMeetingStatus(updateMeetingsDataDTO.getMeetingStatus());
     }
@@ -139,7 +141,6 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   }
 
-  // temporary solution, doesn't work yet
   @Override
   public MeetingsDTO updateMeetingParticipants(Long meetingId,
       UpdateMeetingsParticipantsDTO updateMeetingsParticipantsDTO) {
@@ -152,8 +153,17 @@ public class MeetingsServiceImpl implements MeetingsService {
         .getNewParticipants()
         .forEach(mPartEnt -> {
           MeetingParticipantEntity newMeetingParticipantEntity =
-              meetingsConverter.convertUserParticipantDTOToMeetingParticipantEntity(mPartEnt);
+              MeetingParticipantEntity.builder()
+                  .meeting(meetingsRepository.findById(meetingId).get())
+                  .user(userRepository.findById(mPartEnt.getId()).get())
+                  .participationStatus(ParticipationStatus.INVITED)
+                  .userCoordinateX(0.0)
+                  .userCoordinateY(0.0)
+                  .build();
+          meetingParticipantRepository.save(newMeetingParticipantEntity);
+
           meetingsEntityToUpdate.getMeetingParticipants().add(newMeetingParticipantEntity);
+
         } );
 
     meetingsRepository.save(meetingsEntityToUpdate);

@@ -35,6 +35,9 @@ public class MeetingsEntity {
   private Long id;
 
   @Column
+  private String title;
+
+  @Column
   @CreationTimestamp
   private Timestamp createdAt;
 
