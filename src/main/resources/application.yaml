@@ -1,8 +1,11 @@
+application:
+  meeting-radius: 300
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/connect_me_now
-    username: postgres
-    password: postgres
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -22,4 +25,4 @@ logging:
     org.hibernate: INFO
 
 server:
-  port: 8080
+  port: 8081
