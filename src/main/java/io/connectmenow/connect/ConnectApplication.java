@@ -1,6 +1,7 @@
 package io.connectmenow.connect;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.entities.UserStatus;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.services.converters.UserConverter;
@@ -82,10 +83,19 @@ public class ConnectApplication {
           .avatar("http://www.example.com/6.jpg")
           .build()));
 
-//      final UsersEntity user1 = userRepository.findById(1L).get();
-//      final UsersEntity user2 = userRepository.findById(2L).get();
-//      final UsersEntity user3 = userRepository.findById(3L).get();
-//      final UsersEntity user4 = userRepository.findById(4L).get();
+      final UsersEntity user1 = userRepository.findById(1L).get();
+      user1.setStatus(UserStatus.ONLINE);
+      final UsersEntity user2 = userRepository.findById(2L).get();
+      user2.setStatus(UserStatus.ONLINE);
+      final UsersEntity user3 = userRepository.findById(3L).get();
+      user3.setStatus(UserStatus.ONLINE);
+      final UsersEntity user4 = userRepository.findById(4L).get();
+      user4.setStatus(UserStatus.ONLINE);
+      final UsersEntity user5 = userRepository.findById(5L).get();
+      user5.setStatus(UserStatus.ONLINE);
+      final UsersEntity user6 = userRepository.findById(6L).get();
+      user6.setStatus(UserStatus.ONLINE);
+
 //
 //      user1.getFriends().add(user2);
 //      user1.getFriends().add(user3);
@@ -99,10 +109,12 @@ public class ConnectApplication {
 //      user4.getFriends().add(user2);
 //      user4.getFriends().add(user3);
 //
-//      userRepository.save(user1);
-//      userRepository.save(user2);
-//      userRepository.save(user3);
-//      userRepository.save(user4);
+      userRepository.save(user1);
+      userRepository.save(user2);
+      userRepository.save(user3);
+      userRepository.save(user4);
+      userRepository.save(user5);
+      userRepository.save(user6);
     };
   }
 }
