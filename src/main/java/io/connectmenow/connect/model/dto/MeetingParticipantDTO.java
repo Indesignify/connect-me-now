@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class MeetingParticipantDTO {
 
   @NotNull
-  private Long id;
+  private Long meetingId;
 
   private String title;
 

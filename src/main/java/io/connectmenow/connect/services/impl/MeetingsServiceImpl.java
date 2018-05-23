@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service("meetingsService")
@@ -38,6 +39,9 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   @Autowired
   MeetingParticipantRepository meetingParticipantRepository;
+
+  @Value("${application.meeting-radius}")
+  private Long meetingRadius;
 
   @Override
   public MeetingsDTO getMeetingById(Long meetingId) {
@@ -83,6 +87,8 @@ public class MeetingsServiceImpl implements MeetingsService {
     final MeetingsEntity meetingEntity = meetingsRepository.save(meetingsConverter
         .convertCreateMeetingsDTOToMeetingsEntity(createMeetingsDTO));
 
+    Long creatorId = createMeetingsDTO.getCreatorId();
+
     createMeetingsDTO.getMeetingParticipantsIds().forEach(pId -> {
       MeetingParticipantEntity meetingParticipantEntity = MeetingParticipantEntity.builder()
           .meeting(meetingEntity)
@@ -91,6 +97,11 @@ public class MeetingsServiceImpl implements MeetingsService {
           .userCoordinateX(0.0)
           .userCoordinateY(0.0)
           .build();
+
+      if (pId == creatorId) {
+        meetingParticipantEntity.setParticipationStatus(ParticipationStatus.CREATOR);
+      }
+
       MeetingParticipantEntity savedMeetingParticipantEntity =
           meetingParticipantRepository.save(meetingParticipantEntity);
       meetingEntity.getMeetingParticipants().add(savedMeetingParticipantEntity);

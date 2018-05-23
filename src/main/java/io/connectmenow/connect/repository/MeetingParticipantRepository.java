@@ -7,4 +7,6 @@ public interface MeetingParticipantRepository extends CrudRepository<MeetingPart
 
   MeetingParticipantEntity findMeetingParticipantEntityByUserIdAndMeetingId(Long userId, Long meetingId);
 
+  MeetingParticipantEntity findMeetingParticipantEntityByMeetingId(Long meetingId);
+
 }

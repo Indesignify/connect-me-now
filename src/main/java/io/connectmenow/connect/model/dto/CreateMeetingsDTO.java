@@ -24,6 +24,8 @@ public class CreateMeetingsDTO {
 
   private Double coordinateY;
 
+  private Long creatorId;
+
   private Set<Long> meetingParticipantsIds;
 
 }

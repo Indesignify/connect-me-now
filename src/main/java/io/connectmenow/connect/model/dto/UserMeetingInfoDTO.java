@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class UserMeetingInfoDTO {
 
   @NotNull
-  private long id;
+  private long userId;
 
   private String firstName;
 
