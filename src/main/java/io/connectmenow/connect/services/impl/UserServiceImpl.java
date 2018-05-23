@@ -8,6 +8,7 @@ import io.connectmenow.connect.model.entities.UserStatus;
 import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.services.UserService;
+import io.connectmenow.connect.services.converters.MeetingParticipantConverter;
 import io.connectmenow.connect.services.converters.UserConverter;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private UserConverter userConverter;
 
+  @Autowired
+  private MeetingParticipantConverter meetingParticipantConverter;
+
   @Override
   public UserDTO getUserById(final Long id) {
 
@@ -40,13 +44,15 @@ public class UserServiceImpl implements UserService {
 
   }
 
-  // stub
   @Override
   public Set<MeetingsDTO> getUserMeetingsById(Long userId) {
 
     Set<MeetingsDTO> meetingsOfUser = new HashSet<>();
 
     UsersEntity usersEntity = userRepository.findById(userId).get();
+
+    meetingsOfUser.addAll(meetingParticipantConverter
+        .convertMeetingsDTOSetToMeetingParticipantEntitySet(usersEntity.getMeetingsOfUser()));
 
     return meetingsOfUser;
 
