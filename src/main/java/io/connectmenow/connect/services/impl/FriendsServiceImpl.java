@@ -46,6 +46,72 @@ public class FriendsServiceImpl implements FriendsService {
     FriendsDTO friendsDTO = friendsConverter.convert(friendsEntity);
 
     return friendsDTO;
+
+  }
+
+  @Override
+  public FriendsDTO acceptFriendship(Long responderId, Long requesterId) {
+
+    FriendsEntity requesterFriendsEntity = friendsRepository.findFriendsEntityByPersonId(requesterId);
+
+    UsersEntity requester = userRepository.findById(responderId).get();
+
+    UsersEntity responder = userRepository.findById(requesterId).get();
+
+    requesterFriendsEntity.setFriendshipStatus(FriendshipStatus.ACCEPTED);
+
+    friendsRepository.save(requesterFriendsEntity);
+
+    FriendsEntity responderFriendsEntity = FriendsEntity
+        .builder()
+        .personId(requesterId)
+        .friendOf(requester)
+        .friendId(responderId)
+        .friendWith(responder)
+        .friendshipStatus(FriendshipStatus.ACCEPTED)
+        .build();
+
+    friendsRepository.save(responderFriendsEntity);
+
+    FriendsDTO newFriend = friendsConverter.convert(responderFriendsEntity);
+
+    return newFriend;
+
+  }
+
+  @Override
+  public FriendsDTO deleteFriend(Long deleteRequesterId, Long friendToDeleteId) {
+
+    FriendsEntity deleteRequesterEntity = friendsRepository
+        .findFriendsEntitiesByPersonIdAndFriendId(deleteRequesterId, friendToDeleteId);
+
+    FriendsEntity friendsEntityToDelete = friendsRepository
+        .findFriendsEntitiesByPersonIdAndFriendId(friendToDeleteId, deleteRequesterId);
+
+    deleteRequesterEntity.setFriendshipStatus(FriendshipStatus.PENDING);
+
+    friendsRepository.save(deleteRequesterEntity);
+    friendsRepository.delete(friendsEntityToDelete);
+
+    FriendsDTO deleteRequesterDTO = friendsConverter.convert(deleteRequesterEntity);
+
+    return deleteRequesterDTO;
+
+  }
+
+  @Override
+  public FriendsDTO rejectFriendship(Long responderId, Long requesterId) {
+
+    FriendsEntity requesterFriendsEntity = friendsRepository.findFriendsEntityByPersonId(requesterId);
+
+    requesterFriendsEntity.setFriendshipStatus(FriendshipStatus.REJECTED);
+
+    friendsRepository.save(requesterFriendsEntity);
+
+    FriendsDTO friendsDTO = friendsConverter.convert(requesterFriendsEntity);
+
+    return friendsDTO;
+
   }
 
 }
