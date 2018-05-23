@@ -82,27 +82,27 @@ public class ConnectApplication {
           .avatar("http://www.example.com/6.jpg")
           .build()));
 
-      final UsersEntity user1 = userRepository.findById(1L).get();
-      final UsersEntity user2 = userRepository.findById(2L).get();
-      final UsersEntity user3 = userRepository.findById(3L).get();
-      final UsersEntity user4 = userRepository.findById(4L).get();
-
-      user1.getFriends().add(user2);
-      user1.getFriends().add(user3);
-
-      user2.getFriends().add(user1);
-      user2.getFriends().add(user3);
-
-      user3.getFriends().add(user1);
-
-      user4.getFriends().add(user1);
-      user4.getFriends().add(user2);
-      user4.getFriends().add(user3);
-
-      userRepository.save(user1);
-      userRepository.save(user2);
-      userRepository.save(user3);
-      userRepository.save(user4);
+//      final UsersEntity user1 = userRepository.findById(1L).get();
+//      final UsersEntity user2 = userRepository.findById(2L).get();
+//      final UsersEntity user3 = userRepository.findById(3L).get();
+//      final UsersEntity user4 = userRepository.findById(4L).get();
+//
+//      user1.getFriends().add(user2);
+//      user1.getFriends().add(user3);
+//
+//      user2.getFriends().add(user1);
+//      user2.getFriends().add(user3);
+//
+//      user3.getFriends().add(user1);
+//
+//      user4.getFriends().add(user1);
+//      user4.getFriends().add(user2);
+//      user4.getFriends().add(user3);
+//
+//      userRepository.save(user1);
+//      userRepository.save(user2);
+//      userRepository.save(user3);
+//      userRepository.save(user4);
     };
   }
 }
