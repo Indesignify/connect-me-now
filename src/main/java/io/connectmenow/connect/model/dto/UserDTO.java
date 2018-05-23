@@ -38,4 +38,6 @@ public class UserDTO {
 
   private Set<MeetingParticipantDTO> meetingsOfUser;
 
+  private FriendsListDTO friendsOfUser;
+
 }

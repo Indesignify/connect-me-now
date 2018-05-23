@@ -84,7 +84,7 @@ public abstract class MeetingParticipantConverter {
     return userParticipantDTOS;
   }
 
-  public Set<MeetingsDTO> convertMeetingsDTOSetToMeetingParticipantEntitySet(
+  public Set<MeetingsDTO> convertMeetingParticipantEntitySetToMeetingsDTOSet(
       Set<MeetingParticipantEntity> meetingParticipantEntities) {
     Set<MeetingsDTO> meetingsDTOSet = new LinkedHashSet<>();
     meetingParticipantEntities.forEach(entity -> meetingsDTOSet
@@ -114,6 +114,7 @@ public abstract class MeetingParticipantConverter {
   }
 
   public UserMeetingInfoDTO convert(MeetingParticipantEntity meetingParticipantEntity) {
+
     UsersEntity usersEntity = userRepository.findById(meetingParticipantEntity.getUserId()).get();
 
     UserMeetingInfoDTO userMeetingInfoDTO = UserMeetingInfoDTO
@@ -125,6 +126,7 @@ public abstract class MeetingParticipantConverter {
         .build();
 
     return userMeetingInfoDTO;
+
   }
 
   public Set<UserMeetingInfoDTO> convert(Set<MeetingParticipantEntity> meetingParticipantEntities) {

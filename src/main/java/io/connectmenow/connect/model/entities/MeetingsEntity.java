@@ -56,10 +56,6 @@ public class MeetingsEntity {
   @Column
   private Double coordinateY;
 
-//  @OneToOne(mappedBy = "meetingInitiator", fetch = FetchType.EAGER)
-//  @JoinColumn(name = "initiator_id", referencedColumnName = "meeting_initiator_id")
-//  private MeetingParticipantEntity meetingInitiator;
-
   @OneToMany(mappedBy = "meeting", fetch = FetchType.EAGER)
   private Set<MeetingParticipantEntity> meetingParticipants = new HashSet<>();
 

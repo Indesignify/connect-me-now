@@ -21,7 +21,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {
+    "friendOf", "friendWith", "actualFriends", "personId", "friendId"})
 @Table(name = "users_friends", schema = "public", catalog = "postgres")
 public class FriendsEntity {
 
@@ -43,6 +44,9 @@ public class FriendsEntity {
   @ManyToOne
   @JoinColumn(name = "friend_id", referencedColumnName = "id")
   private UsersEntity friendWith;
+
+//  @ManyToOne
+//  private UsersEntity actualFriends;
 
   @Enumerated(EnumType.STRING)
   private FriendshipStatus friendshipStatus;

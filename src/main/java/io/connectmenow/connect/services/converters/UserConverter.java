@@ -1,48 +1,73 @@
 package io.connectmenow.connect.services.converters;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.dto.FriendsListDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
+import io.connectmenow.connect.model.entities.FriendsEntity;
 import io.connectmenow.connect.model.entities.UsersEntity;
+import io.connectmenow.connect.repository.FriendsRepository;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring", uses = MeetingParticipantConverter.class)
 @Component
-public interface UserConverter {
+public abstract class UserConverter {
+
+  @Autowired
+  FriendsRepository friendsRepository;
+
+  @Autowired
+  FriendsConverter friendsConverter;
 
   MeetingParticipantConverter meetingParticipantConverter
       = Mappers.getMapper(MeetingParticipantConverter.class);
 
   // UsersEntity <-> UserDTO
-  UsersEntity convertUserDTOToUsersEntity(UserDTO userDTO);
-  List<UsersEntity> convertUserDTOToUsersEntityList(List<UserDTO> userDTOs);
-  UserDTO convertUsersEntityToUserDTO(UsersEntity usersEntity);
+  public abstract UsersEntity convertUserDTOToUsersEntity(UserDTO userDTO);
+  public abstract List<UsersEntity> convertUserDTOToUsersEntityList(List<UserDTO> userDTOs);
+  public abstract UserDTO convertUsersEntityToUserDTO(UsersEntity usersEntity);
 
-  List<UserDTO> convertUsersEntityToUserDTOList(List<UsersEntity> usersEntities);
+  public abstract List<UserDTO> convertUsersEntityToUserDTOList(List<UsersEntity> usersEntities);
 
   // UsersEntity <-> CreateUserDTO
-  UsersEntity convertCreateUserDTOToUsersEntity(CreateUserDTO createUserDTO);
-  CreateUserDTO convertUsersEntityToCreateUserDTO(UsersEntity usersEntity);
+  public abstract UsersEntity convertCreateUserDTOToUsersEntity(CreateUserDTO createUserDTO);
+  public abstract CreateUserDTO convertUsersEntityToCreateUserDTO(UsersEntity usersEntity);
 
   // UsersEntity <-> UpdateUserDTO
-  UsersEntity convertUpdateUserDTOToUsersEntity(UpdateUserDTO updateUserDTO);
-  UpdateUserDTO convertUsersEntityToUpdateUserDTO(UsersEntity usersEntity);
+  public abstract UsersEntity convertUpdateUserDTOToUsersEntity(UpdateUserDTO updateUserDTO);
+  public abstract UpdateUserDTO convertUsersEntityToUpdateUserDTO(UsersEntity usersEntity);
 
   // UserDTO <-> UpdateUserDTO
-  UserDTO convertUpdateUserDTOToUserDTO(UpdateUserDTO updateUserDTO);
-  UpdateUserDTO convertUserDTOToUpdateUserDTO(UserDTO userDTO);
+  public abstract UserDTO convertUpdateUserDTOToUserDTO(UpdateUserDTO updateUserDTO);
+  public abstract UpdateUserDTO convertUserDTOToUpdateUserDTO(UserDTO userDTO);
 
   // UserDTO <-> CreateUserDTO
-  UserDTO convertCreateUserDTOToUserDTO(CreateUserDTO createUserDTO);
-  CreateUserDTO convertUserDTOToCreateUserDTO(UserDTO userDTO);
+  public abstract UserDTO convertCreateUserDTOToUserDTO(CreateUserDTO createUserDTO);
+  public abstract CreateUserDTO convertUserDTOToCreateUserDTO(UserDTO userDTO);
 
   // UsersEntity <-> UserParticipantDTO
-  UserParticipantDTO convertUsersEntityToUserParticipantDTO(UsersEntity usersEntity);
+  public abstract UserParticipantDTO convertUsersEntityToUserParticipantDTO(UsersEntity usersEntity);
+
+//  public FriendsListDTO convertFriendsEntitySetToFriendsListDTO(Set<FriendsEntity> friendsEntities) {
+//    Set<Long> friendsEntitiesIdsSet = new HashSet<>();
+//
+//    friendsEntities.forEach(frEnt ->
+//        friendsEntitiesIdsSet.add(frEnt.getId()));
+//
+//    Set<FriendsEntity> confirmedFriendsIds = friendsRepository.findFriendsEntitiesByFriendOfAndFriendWith();
+//
+//    Set<Long> incomingRequests;
+//
+//    Set<Long> outcomingRequests;
+//  }
 
 }

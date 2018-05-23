@@ -1,9 +1,11 @@
 package io.connectmenow.connect.controller;
 
 import io.connectmenow.connect.model.dto.CreateUserDTO;
+import io.connectmenow.connect.model.dto.FriendsListDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
+import io.connectmenow.connect.model.entities.FriendsEntity;
 import io.connectmenow.connect.services.UserService;
 import java.util.List;
 import java.util.Set;
@@ -65,6 +67,14 @@ public class UserController {
       @PathVariable("userId") Long userId) {
 
     return userService.getUserMeetingsById(userId);
+
+  }
+
+  @GetMapping(value = "/{userId}/friends")
+  public FriendsListDTO getUserFriends(
+      @PathVariable("userId") Long userId) {
+
+    return userService.getUserFriendsById(userId);
 
   }
 

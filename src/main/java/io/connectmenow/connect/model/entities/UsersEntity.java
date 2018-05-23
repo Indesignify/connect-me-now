@@ -84,4 +84,7 @@ public class UsersEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendWith")
   private Set<FriendsEntity> friends = new HashSet<>();
 
+//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "actualFriends")
+//  private Set<FriendsEntity> confirmedFriends = new HashSet<>();
+
 }
