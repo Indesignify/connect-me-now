@@ -4,6 +4,7 @@ import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingStatus;
 import io.connectmenow.connect.model.entities.MeetingsEntity;
@@ -120,6 +121,45 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     return newMeeting;
 
+  }
+
+  @Override
+  public UserCoordinatesDTO getUserCoordinates(Long userId, Long meetingId) {
+
+    MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
+        .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
+
+    if (meetingParticipantEntity.getParticipationStatus() == ParticipationStatus.ACCEPTED) {
+        UserCoordinatesDTO userCoordinatesDTO = UserCoordinatesDTO
+            .builder()
+            .userId(userId)
+            .meetingId(meetingId)
+            .userCoordinateX(meetingParticipantEntity.getUserCoordinateX())
+            .userCoordinateY(meetingParticipantEntity.getUserCoordinateY())
+            .build();
+
+        return userCoordinatesDTO;
+    } else if (meetingParticipantEntity.getParticipationStatus() == ParticipationStatus.REJECTED) {
+        UserCoordinatesDTO userCoordinatesDTO = UserCoordinatesDTO
+            .builder()
+            .userId(userId)
+            .meetingId(meetingId)
+            .userCoordinateX(Double.NEGATIVE_INFINITY)
+            .userCoordinateY(Double.POSITIVE_INFINITY)
+            .build();
+
+        return userCoordinatesDTO;
+    } else {
+      UserCoordinatesDTO userCoordinatesDTO = UserCoordinatesDTO
+          .builder()
+          .userId(userId)
+          .meetingId(meetingId)
+          .userCoordinateX(0.0)
+          .userCoordinateY(0.0)
+          .build();
+
+      return userCoordinatesDTO;
+    }
   }
 
   @Override

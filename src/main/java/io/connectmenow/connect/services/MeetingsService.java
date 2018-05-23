@@ -4,6 +4,7 @@ import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,8 @@ public interface MeetingsService {
   List<MeetingsDTO> getAllMeetings();
 
   Set<UserParticipantDTO> getMeetingParticipants(Long meetingId);
+
+  UserCoordinatesDTO getUserCoordinates(Long userId, Long meetingId);
 
   MeetingsDTO createMeeting(CreateMeetingsDTO createMeetingsDTO);
 

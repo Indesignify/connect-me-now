@@ -4,6 +4,7 @@ import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.services.MeetingsService;
@@ -64,6 +65,14 @@ public class MeetingsController {
       @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
 
     meetingsService.acceptMeeting(userId, meetingId);
+
+  }
+
+  @GetMapping(value = "/{meetingId}/participants/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public UserCoordinatesDTO getUserCoordinates(
+      @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
+
+    return meetingsService.getUserCoordinates(userId, meetingId);
 
   }
 
