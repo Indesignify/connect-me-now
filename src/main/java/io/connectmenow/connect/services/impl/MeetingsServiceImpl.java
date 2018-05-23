@@ -4,6 +4,7 @@ import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UpdateUserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingStatus;
@@ -163,6 +164,28 @@ public class MeetingsServiceImpl implements MeetingsService {
   }
 
   @Override
+  public UserCoordinatesDTO updateUserCoordinates(Long userId, Long meetingId, UpdateUserCoordinatesDTO updateUserCoordinatesDTO) {
+
+    MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
+        .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
+
+    UserCoordinatesDTO userCoordinatesDTO = meetingsConverter.convert(updateUserCoordinatesDTO);
+
+    meetingParticipantEntity.setUserCoordinateX(updateUserCoordinatesDTO.getUserCoordinateX());
+
+    meetingParticipantEntity.setUserCoordinateY(updateUserCoordinatesDTO.getUserCoordinateY());
+
+    meetingParticipantRepository.save(meetingParticipantEntity);
+
+//  if (meetingIsCompletedAutomatically(meetingId)) {
+//    completeMeeting(meetingId);
+//  }
+
+    return userCoordinatesDTO;
+
+  }
+
+  @Override
   public MeetingsDTO updateMeetingData(Long meetingId, UpdateMeetingsDataDTO updateMeetingsDataDTO) {
 
     updateMeetingsDataDTO.setId(meetingId);
@@ -184,6 +207,8 @@ public class MeetingsServiceImpl implements MeetingsService {
     if (updateMeetingsDataDTO.getCoordinateY() != null) {
       meetingsEntityToUpdate.setCoordinateY(updateMeetingsDataDTO.getCoordinateY());
     }
+
+    meetingsRepository.save(meetingsEntityToUpdate);
 
     MeetingsDTO updatedMeetingsDTO = meetingsConverter
         .convertMeetingsEntityToMeetingsDTO(meetingsEntityToUpdate);
@@ -226,18 +251,18 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   }
 
-  @Override
-  public MeetingsDTO cancelMeeting(Long meetingId) {
-
-    MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).get();
-
-    meetingsEntity.setMeetingStatus(MeetingStatus.CANCELLED);
-
-    meetingsEntity.setEndedAt(new Timestamp(System.currentTimeMillis()));
-
-    return meetingsConverter.convertMeetingsEntityToMeetingsDTO(meetingsEntity);
-
-  }
+//  @Override
+//  public MeetingsDTO cancelMeeting(Long meetingId) {
+//
+//    MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).get();
+//
+//    meetingsEntity.setMeetingStatus(MeetingStatus.CANCELLED);
+//
+//    meetingsEntity.setEndedAt(new Timestamp(System.currentTimeMillis()));
+//
+//    return meetingsConverter.convertMeetingsEntityToMeetingsDTO(meetingsEntity);
+//
+//  }
 
   @Override
   public void acceptMeeting(Long userId, Long meetingId) {
@@ -246,6 +271,8 @@ public class MeetingsServiceImpl implements MeetingsService {
         .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
 
     meetingParticipantEntity.setParticipationStatus(ParticipationStatus.ACCEPTED);
+
+    meetingParticipantRepository.save(meetingParticipantEntity);
 
   }
 
@@ -257,6 +284,8 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     meetingParticipantEntity.setParticipationStatus(ParticipationStatus.REJECTED);
 
+    meetingParticipantRepository.save(meetingParticipantEntity);
+
   }
 
   @Override
@@ -267,6 +296,8 @@ public class MeetingsServiceImpl implements MeetingsService {
     meetingsEntity.setMeetingStatus(MeetingStatus.SUCCESSFUL);
 
     meetingsEntity.setEndedAt(new Timestamp(System.currentTimeMillis()));
+
+    meetingsRepository.save(meetingsEntity);
 
     return meetingsConverter.convertMeetingsEntityToMeetingsDTO(meetingsEntity);
 

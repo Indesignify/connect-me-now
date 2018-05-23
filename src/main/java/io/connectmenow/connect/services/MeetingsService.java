@@ -4,6 +4,7 @@ import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UpdateUserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import java.util.List;
@@ -19,6 +20,8 @@ public interface MeetingsService {
 
   UserCoordinatesDTO getUserCoordinates(Long userId, Long meetingId);
 
+  UserCoordinatesDTO updateUserCoordinates(Long userId, Long meetingId, UpdateUserCoordinatesDTO updateUserCoordinatesDTO);
+
   MeetingsDTO createMeeting(CreateMeetingsDTO createMeetingsDTO);
 
   MeetingsDTO updateMeetingData(Long meetingId, UpdateMeetingsDataDTO updateMeetingsDataDTO);
@@ -26,7 +29,7 @@ public interface MeetingsService {
   MeetingsDTO updateMeetingParticipants(Long meetingId,
       UpdateMeetingsParticipantsDTO updateMeetingsParticipantsDTO);
 
-  MeetingsDTO cancelMeeting(Long meetingId);
+//  MeetingsDTO cancelMeeting(Long meetingId);
 
   void acceptMeeting(Long userId, Long meetingId);
 

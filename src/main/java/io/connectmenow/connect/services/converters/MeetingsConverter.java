@@ -3,6 +3,8 @@ package io.connectmenow.connect.services.converters;
 import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
+import io.connectmenow.connect.model.dto.UpdateUserCoordinatesDTO;
+import io.connectmenow.connect.model.dto.UserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
 import io.connectmenow.connect.model.entities.MeetingsEntity;
@@ -35,6 +37,9 @@ public interface MeetingsConverter {
 
   UserConverter userConverter = Mappers.getMapper(UserConverter.class);
   MeetingsConverter meetingsConverter = Mappers.getMapper(MeetingsConverter.class);
+
+  UpdateUserCoordinatesDTO convert(UserCoordinatesDTO userCoordinatesDTO);
+  UserCoordinatesDTO convert(UpdateUserCoordinatesDTO updateUserCoordinatesDTO);
 
 //  @Autowired
 //  MeetingParticipantRepository meetingParticipantRepository

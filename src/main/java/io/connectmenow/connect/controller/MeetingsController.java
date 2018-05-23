@@ -4,6 +4,7 @@ import io.connectmenow.connect.model.dto.CreateMeetingsDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsDataDTO;
 import io.connectmenow.connect.model.dto.UpdateMeetingsParticipantsDTO;
+import io.connectmenow.connect.model.dto.UpdateUserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserCoordinatesDTO;
 import io.connectmenow.connect.model.dto.UserParticipantDTO;
 import io.connectmenow.connect.model.entities.MeetingParticipantEntity;
@@ -76,6 +77,15 @@ public class MeetingsController {
 
   }
 
+  @PutMapping(value = "/{meetingId}/participants/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public UserCoordinatesDTO updateUserCoordinates(
+      @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId,
+      @RequestBody UpdateUserCoordinatesDTO updateUserCoordinatesDTO) {
+
+    return meetingsService.updateUserCoordinates(userId, meetingId, updateUserCoordinatesDTO);
+
+  }
+
   @PatchMapping(value = "/{meetingId}/{userId}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
   public void rejectMeeting(
       @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
@@ -92,13 +102,13 @@ public class MeetingsController {
 
   }
 
-  @PatchMapping(value = "/{meetingId}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
-  public MeetingsDTO cancelMeeting(
-      @PathVariable("meetingId") Long meetingId) {
-
-    return meetingsService.cancelMeeting(meetingId);
-
-  }
+//  @PatchMapping(value = "/{meetingId}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
+//  public MeetingsDTO cancelMeeting(
+//      @PathVariable("meetingId") Long meetingId) {
+//
+//    return meetingsService.cancelMeeting(meetingId);
+//
+//  }
 
   @PutMapping(value = "/{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public MeetingsDTO updateMeetingData(
