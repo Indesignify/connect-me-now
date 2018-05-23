@@ -78,18 +78,10 @@ public class UsersEntity {
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private Set<MeetingParticipantEntity> meetingsOfUser = new HashSet<>();
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "users_friends",
-      joinColumns = @JoinColumn(name = "personId"),
-      inverseJoinColumns = @JoinColumn(name = "friendId")
-  )
-  private Set<UsersEntity> friends = new HashSet<>();
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendOf")
+  private Set<FriendsEntity> friendOfWho = new HashSet<>();
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "users_friends",
-      joinColumns = @JoinColumn(name = "friendId"),
-      inverseJoinColumns = @JoinColumn(name = "personId")
-  )
-  private Set<UsersEntity> friendOf = new HashSet<>();
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "friendWith")
+  private Set<FriendsEntity> friends = new HashSet<>();
 
 }
