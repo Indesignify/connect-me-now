@@ -59,7 +59,7 @@ public class MeetingsController {
 
   }
 
-  @PostMapping(value = "/{meetingId}/{userId}/accept", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/{meetingId}/{userId}/accept", produces = MediaType.APPLICATION_JSON_VALUE)
   public void acceptMeeting(
       @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
 
@@ -83,7 +83,7 @@ public class MeetingsController {
 
   }
 
-  @PostMapping(value = "/{meetingId}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/{meetingId}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
   public MeetingsDTO cancelMeeting(
       @PathVariable("meetingId") Long meetingId) {
 
