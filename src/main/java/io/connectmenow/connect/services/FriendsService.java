@@ -12,4 +12,6 @@ public interface FriendsService {
 
   FriendsDTO rejectFriendship(Long responderId, Long requesterId);
 
+  Boolean areFriends(Long userId, Long friendId);
+
 }

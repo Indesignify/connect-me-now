@@ -28,6 +28,27 @@ public class FriendsServiceImpl implements FriendsService {
   @Override
   public FriendsDTO requestFriendship(Long userId, Long friendId) {
 
+    if (userId == friendId) {
+      throw new IllegalArgumentException("User with id " + userId + " can't become a friend of himself!");
+    }
+
+    if (friendsRepository
+        .findFriendsEntitiesByPersonIdAndFriendIdAndFriendshipStatus(userId, friendId, FriendshipStatus.PENDING) != null) {
+      throw new IllegalArgumentException("Friendship request from " + userId + " "
+          + "to " + friendId + " already exists!");
+    }
+
+    if (friendsRepository
+        .findFriendsEntitiesByPersonIdAndFriendIdAndFriendshipStatus(friendId, userId, FriendshipStatus.PENDING) != null) {
+      throw new IllegalArgumentException("Mirror friendship request from " + friendId + " "
+          + "to " + userId + " already exists! Please reject or accept it first.");
+    }
+
+    if (areFriends(userId, friendId)) {
+      throw new IllegalArgumentException("User with id " + userId + " is already a"
+          + " friend of user with id " + friendId + "!");
+    }
+
     UsersEntity requester = userRepository.findById(userId).get();
 
     UsersEntity responder = userRepository.findById(friendId).get();
@@ -52,10 +73,21 @@ public class FriendsServiceImpl implements FriendsService {
   @Override
   public FriendsDTO acceptFriendship(Long responderId, Long requesterId) {
 
-    FriendsEntity requesterFriendsEntity = friendsRepository.findFriendsEntityByPersonId(requesterId);
+    if (responderId == requesterId) {
+      throw new IllegalArgumentException("User with id " + responderId + " can't accept friendship of himself!");
+    }
+
+    FriendsEntity requesterFriendsEntity = friendsRepository
+        .findFriendsEntityByPersonIdAndFriendIdAndFriendshipStatus(requesterId, responderId, FriendshipStatus.PENDING);
 
     if (requesterFriendsEntity == null) {
-      throw new IllegalArgumentException("Friend request from user " + requesterId + " not found!");
+      throw new IllegalArgumentException("Friendship request from user with id " + requesterId + " to user with id " +
+         responderId + " not found!");
+    }
+
+    if (areFriends(responderId, requesterId)) {
+      throw new IllegalArgumentException("User with id " + responderId + " is already a "
+          + "friend of user with id " + requesterId + "!");
     }
 
     UsersEntity requester = userRepository.findById(responderId).get();
@@ -86,11 +118,20 @@ public class FriendsServiceImpl implements FriendsService {
   @Override
   public FriendsDTO deleteFriend(Long deleteRequesterId, Long friendToDeleteId) {
 
+    if (deleteRequesterId == friendToDeleteId) {
+      throw new IllegalArgumentException("User with id " + deleteRequesterId + " can't delete himself from friends!");
+    }
+
+    if (!areFriends(deleteRequesterId, friendToDeleteId)) {
+      throw new IllegalArgumentException("User with id " + deleteRequesterId + " is not a friend of" +
+            " user with id " + friendToDeleteId + "!");
+    }
+
     FriendsEntity deleteRequesterEntity = friendsRepository
-        .findFriendsEntitiesByPersonIdAndFriendId(deleteRequesterId, friendToDeleteId);
+        .findFriendsEntityByPersonIdAndFriendIdAndFriendshipStatus(deleteRequesterId, friendToDeleteId, FriendshipStatus.ACCEPTED);
 
     FriendsEntity friendsEntityToDelete = friendsRepository
-        .findFriendsEntitiesByPersonIdAndFriendId(friendToDeleteId, deleteRequesterId);
+        .findFriendsEntityByPersonIdAndFriendIdAndFriendshipStatus(friendToDeleteId, deleteRequesterId, FriendshipStatus.ACCEPTED);
 
     deleteRequesterEntity.setFriendshipStatus(FriendshipStatus.PENDING);
 
@@ -106,10 +147,22 @@ public class FriendsServiceImpl implements FriendsService {
   @Override
   public FriendsDTO rejectFriendship(Long responderId, Long requesterId) {
 
-    FriendsEntity requesterFriendsEntity = friendsRepository.findFriendsEntityByPersonId(requesterId);
+    if (responderId == requesterId) {
+      throw new IllegalArgumentException("User with id " + responderId + " can't reject friendship of himself!");
+    }
+
+    FriendsEntity requesterFriendsEntity = friendsRepository
+        .findFriendsEntityByPersonIdAndFriendIdAndFriendshipStatus(requesterId, responderId, FriendshipStatus.PENDING);
 
     if (requesterFriendsEntity == null) {
-      throw new IllegalArgumentException("Friend request from user " + requesterId + " not found!");
+      throw new IllegalArgumentException("Pending friendship request from user with id " + requesterId
+          + " to user with id " + responderId + " not found!");
+    }
+
+    if (areFriends(responderId, requesterId)) {
+      throw new IllegalArgumentException("User with id " + responderId + " is already a "
+          + "friend of user with id " + requesterId + ", can't reject friendship."
+          + "Please use deleteFriend instead.");
     }
 
     requesterFriendsEntity.setFriendshipStatus(FriendshipStatus.REJECTED);
@@ -119,6 +172,16 @@ public class FriendsServiceImpl implements FriendsService {
     FriendsDTO friendsDTO = friendsConverter.convert(requesterFriendsEntity);
 
     return friendsDTO;
+
+  }
+
+  @Override
+  public Boolean areFriends(Long userId, Long friendId) {
+
+    FriendsEntity friendsEntity = friendsRepository
+        .findFriendsEntitiesByPersonIdAndFriendIdAndFriendshipStatus(userId, friendId, FriendshipStatus.ACCEPTED);
+
+    return friendsEntity != null;
 
   }
 

@@ -15,6 +15,7 @@ import io.connectmenow.connect.model.entities.UsersEntity;
 import io.connectmenow.connect.repository.MeetingParticipantRepository;
 import io.connectmenow.connect.repository.MeetingsRepository;
 import io.connectmenow.connect.repository.UserRepository;
+import io.connectmenow.connect.services.FriendsService;
 import io.connectmenow.connect.services.MeetingsService;
 import io.connectmenow.connect.services.converters.MeetingsConverter;
 import java.sql.Timestamp;
@@ -41,6 +42,9 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   @Autowired
   MeetingParticipantRepository meetingParticipantRepository;
+
+  @Autowired
+  FriendsService friendsService;
 
   @Value("${application.meeting-radius}")
   private Long meetingRadius;
@@ -92,6 +96,11 @@ public class MeetingsServiceImpl implements MeetingsService {
     Long creatorId = createMeetingsDTO.getCreatorId();
 
     createMeetingsDTO.getMeetingParticipantsIds().forEach(pId -> {
+      if (!(friendsService.areFriends(pId, creatorId)) && (pId != creatorId)) {
+        throw new IllegalArgumentException("User with id " + pId + " is not a friend of "
+            + "the meeting creator with id " + creatorId + "!");
+      }
+
       MeetingParticipantEntity meetingParticipantEntity = MeetingParticipantEntity.builder()
           .meeting(meetingEntity)
           .participationStatus(ParticipationStatus.INVITED)
@@ -113,6 +122,28 @@ public class MeetingsServiceImpl implements MeetingsService {
       userRepository.save(usersEntity);
 
     });
+
+    UsersEntity creatorUsersEntity = userRepository.findById(creatorId).get();
+
+    if (meetingParticipantRepository
+        .findMeetingParticipantEntityByUserIdAndMeetingId(creatorId, meetingEntity.getId()) == null) {
+
+      MeetingParticipantEntity meetingParticipantEntity = MeetingParticipantEntity.builder()
+          .meeting(meetingEntity)
+          .participationStatus(ParticipationStatus.CREATOR)
+          .user(userRepository.findById(creatorId).get())
+          .userCoordinateX(0.0)
+          .userCoordinateY(0.0)
+          .build();
+
+      MeetingParticipantEntity savedMeetingParticipantEntity =
+          meetingParticipantRepository.save(meetingParticipantEntity);
+      meetingEntity.getMeetingParticipants().add(savedMeetingParticipantEntity);
+
+      creatorUsersEntity.getMeetingsOfUser().add(meetingParticipantEntity);
+      userRepository.save(creatorUsersEntity);
+
+    }
 
     meetingsRepository.save(meetingEntity);
 

@@ -14,7 +14,11 @@ public interface FriendsRepository extends CrudRepository<FriendsEntity, Long> {
 
   FriendsEntity findFriendsEntityByPersonId(Long userId);
 
+  FriendsEntity findFriendsEntityByPersonIdAndFriendIdAndFriendshipStatus(Long personId, Long friendId, FriendshipStatus friendshipStatus);
+
   FriendsEntity findFriendsEntitiesByPersonIdAndFriendId(Long personId, Long friendId);
+
+  FriendsEntity findFriendsEntitiesByPersonIdAndFriendIdAndFriendshipStatus(Long personId, Long friendId, FriendshipStatus friendshipStatus);
 
   @Query(value = "SELECT f FROM FriendsEntity f WHERE "
       + "f.friendId = :friendId AND f.friendshipStatus = :friendshipStatus")
