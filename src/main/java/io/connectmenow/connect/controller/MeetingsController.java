@@ -102,13 +102,13 @@ public class MeetingsController {
 
   }
 
-//  @PatchMapping(value = "/{meetingId}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
-//  public MeetingsDTO cancelMeeting(
-//      @PathVariable("meetingId") Long meetingId) {
-//
-//    return meetingsService.cancelMeeting(meetingId);
-//
-//  }
+  @PatchMapping(value = "/{meetingId}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
+  public MeetingsDTO cancelMeeting(
+      @PathVariable("meetingId") Long meetingId, Long userId) {
+
+    return meetingsService.cancelMeeting(meetingId, userId);
+
+  }
 
   @PutMapping(value = "/{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public MeetingsDTO updateMeetingData(

@@ -29,7 +29,7 @@ public interface MeetingsService {
   MeetingsDTO updateMeetingParticipants(Long meetingId,
       UpdateMeetingsParticipantsDTO updateMeetingsParticipantsDTO);
 
-//  MeetingsDTO cancelMeeting(Long meetingId);
+  MeetingsDTO cancelMeeting(Long meetingId, Long userId);
 
   void acceptMeeting(Long userId, Long meetingId);
 

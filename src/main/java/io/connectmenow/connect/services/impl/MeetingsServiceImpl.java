@@ -197,6 +197,12 @@ public class MeetingsServiceImpl implements MeetingsService {
   @Override
   public UserCoordinatesDTO updateUserCoordinates(Long userId, Long meetingId, UpdateUserCoordinatesDTO updateUserCoordinatesDTO) {
 
+    MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).get();
+
+    if (meetingsEntity.getMeetingStatus() != MeetingStatus.ONGOING) {
+      throw new IllegalStateException("Meeting is already over, can't update user coordinates!");
+    }
+
     MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
         .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
 
@@ -282,18 +288,35 @@ public class MeetingsServiceImpl implements MeetingsService {
 
   }
 
-//  @Override
-//  public MeetingsDTO cancelMeeting(Long meetingId) {
-//
-//    MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).get();
-//
-//    meetingsEntity.setMeetingStatus(MeetingStatus.CANCELLED);
-//
-//    meetingsEntity.setEndedAt(new Timestamp(System.currentTimeMillis()));
-//
-//    return meetingsConverter.convertMeetingsEntityToMeetingsDTO(meetingsEntity);
-//
-//  }
+  @Override
+  public MeetingsDTO cancelMeeting(Long meetingId, Long userId) {
+
+    MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).get();
+
+    Long creatorId = 0L;
+
+    for (MeetingParticipantEntity meetingParticipantEnt : meetingsEntity.getMeetingParticipants()) {
+      if (meetingParticipantEnt.getParticipationStatus() == ParticipationStatus.CREATOR) {
+        creatorId = meetingParticipantEnt.getUserId();
+      }
+    }
+
+    if (creatorId == 0) {
+      throw new IllegalStateException("Meeting has no creator, something went wrong!");
+    }
+
+    if (userId != creatorId) {
+      throw new IllegalStateException("User with id " + userId + " is not a creator of meeting with id " +
+          meetingId + "! Can't cancel meeting.");
+    }
+
+    meetingsEntity.setMeetingStatus(MeetingStatus.CANCELLED);
+
+    meetingsEntity.setEndedAt(new Timestamp(System.currentTimeMillis()));
+
+    return meetingsConverter.convertMeetingsEntityToMeetingsDTO(meetingsEntity);
+
+  }
 
   @Override
   public void acceptMeeting(Long userId, Long meetingId) {
