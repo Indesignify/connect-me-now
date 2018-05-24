@@ -12,11 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateUserCoordinatesDTO {
 
-  @NotNull
-  private long userId;
-
-  private long meetingId;
-
   private Double userCoordinateX;
 
   private Double userCoordinateY;

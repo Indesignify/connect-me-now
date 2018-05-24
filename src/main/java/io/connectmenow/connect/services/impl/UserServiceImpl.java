@@ -111,12 +111,29 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDTO createUser(CreateUserDTO createUserDTO) {
 
-    UserDTO newUser = userConverter
-                      .convertUsersEntityToUserDTO(userRepository
-                          .save(userConverter
-                              .convertCreateUserDTOToUsersEntity(createUserDTO)));
+    UsersEntity newUsersEntity = userConverter.convertCreateUserDTOToUsersEntity(createUserDTO);
 
-    return newUser;
+    newUsersEntity.setStatus(UserStatus.ONLINE);
+
+    userRepository.save(newUsersEntity);
+
+    UserDTO newUserDTO = UserDTO
+        .builder()
+        .avatar(newUsersEntity.getAvatar())
+        .email(newUsersEntity.getEmail())
+        .firstName(newUsersEntity.getFirstName())
+        .lastName(newUsersEntity.getLastName())
+        .id(newUsersEntity.getId())
+        .isValidated(newUsersEntity.getIsValidated())
+        .nickname(newUsersEntity.getNickname())
+        .status(newUsersEntity.getStatus())
+        .lastOnline(newUsersEntity.getLastOnline())
+        .registrationDate(newUsersEntity.getRegistrationDate())
+        .meetingsOfUser(new HashSet<>())
+        .friendsOfUser(new FriendsListDTO())
+        .build();
+
+    return newUserDTO;
 
   }
 
