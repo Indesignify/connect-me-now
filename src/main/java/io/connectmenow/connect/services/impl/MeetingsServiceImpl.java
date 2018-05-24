@@ -122,6 +122,8 @@ public class MeetingsServiceImpl implements MeetingsService {
           meetingParticipantRepository.save(meetingParticipantEntity);
       meetingEntity.getMeetingParticipants().add(savedMeetingParticipantEntity);
 
+      meetingsRepository.save(meetingEntity);
+
       UsersEntity usersEntity = userRepository.findById(pId).get();
       usersEntity.getMeetingsOfUser().add(meetingParticipantEntity);
       userRepository.save(usersEntity);
@@ -177,15 +179,9 @@ public class MeetingsServiceImpl implements MeetingsService {
 
         return userCoordinatesDTO;
     } else if (meetingParticipantEntity.getParticipationStatus() == ParticipationStatus.REJECTED) {
-        UserCoordinatesDTO userCoordinatesDTO = UserCoordinatesDTO
-            .builder()
-            .userId(userId)
-            .meetingId(meetingId)
-            .userCoordinateX(Double.NEGATIVE_INFINITY)
-            .userCoordinateY(Double.POSITIVE_INFINITY)
-            .build();
-
-        return userCoordinatesDTO;
+        throw new IllegalArgumentException("It is impossible to get coordinates of user with id "
+                            + userId + " in meeting with meetingId " + meetingId + " because user "
+                            + "with " + userId + " rejected invitation");
     } else {
       UserCoordinatesDTO userCoordinatesDTO = UserCoordinatesDTO
           .builder()
@@ -210,6 +206,11 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
         .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
+
+    if (meetingParticipantEntity.getParticipationStatus() == ParticipationStatus.REJECTED) {
+      throw new IllegalArgumentException("User with id " + userId + " rejected meeting with id "
+          + meetingId + ", can't update coordinates!");
+    }
 
     UserCoordinatesDTO userCoordinatesDTO = meetingsConverter.convert(updateUserCoordinatesDTO);
 
@@ -331,6 +332,11 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
         .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
+
+    if (meetingParticipantEntity.getParticipationStatus() == ParticipationStatus.CREATOR) {
+      throw new IllegalArgumentException("User with id " + userId + " is a creator of meeting "
+          + "with id " + meetingId + ", can't accept meeting!");
+    }
 
     meetingParticipantEntity.setParticipationStatus(ParticipationStatus.ACCEPTED);
 
