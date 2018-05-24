@@ -17,9 +17,11 @@ import io.connectmenow.connect.repository.MeetingsRepository;
 import io.connectmenow.connect.repository.UserRepository;
 import io.connectmenow.connect.services.FriendsService;
 import io.connectmenow.connect.services.MeetingsService;
+import io.connectmenow.connect.services.converters.MeetingParticipantConverter;
 import io.connectmenow.connect.services.converters.MeetingsConverter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.transaction.Transactional;
@@ -44,10 +46,13 @@ public class MeetingsServiceImpl implements MeetingsService {
   MeetingParticipantRepository meetingParticipantRepository;
 
   @Autowired
+  MeetingParticipantConverter meetingParticipantConverter;
+
+  @Autowired
   FriendsService friendsService;
 
   @Value("${application.meeting-radius}")
-  private Long meetingRadius;
+  private Double meetingRadius;
 
   @Override
   public MeetingsDTO getMeetingById(Long meetingId) {
@@ -208,15 +213,18 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     UserCoordinatesDTO userCoordinatesDTO = meetingsConverter.convert(updateUserCoordinatesDTO);
 
+    userCoordinatesDTO.setMeetingId(meetingParticipantEntity.getMeetingId());
+    userCoordinatesDTO.setUserId(meetingParticipantEntity.getUserId());
+
     meetingParticipantEntity.setUserCoordinateX(updateUserCoordinatesDTO.getUserCoordinateX());
 
     meetingParticipantEntity.setUserCoordinateY(updateUserCoordinatesDTO.getUserCoordinateY());
 
     meetingParticipantRepository.save(meetingParticipantEntity);
 
-//  if (meetingIsCompletedAutomatically(meetingId)) {
-//    completeMeeting(meetingId);
-//  }
+    if (meetingIsCompletedAutomatically(meetingId)) {
+      completeMeeting(meetingId);
+    }
 
     return userCoordinatesDTO;
 
@@ -319,7 +327,7 @@ public class MeetingsServiceImpl implements MeetingsService {
   }
 
   @Override
-  public void acceptMeeting(Long userId, Long meetingId) {
+  public UserParticipantDTO acceptMeeting(Long userId, Long meetingId) {
 
     MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
         .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
@@ -328,17 +336,25 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     meetingParticipantRepository.save(meetingParticipantEntity);
 
+    return meetingParticipantConverter
+        .convertMeetingParticipantEntityToUserParticipantDTO(meetingParticipantEntity);
+
   }
 
   @Override
-  public void rejectMeeting(Long userId, Long meetingId) {
+  public UserParticipantDTO rejectMeeting(Long userId, Long meetingId) {
 
     MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
         .findMeetingParticipantEntityByUserIdAndMeetingId(userId, meetingId);
 
     meetingParticipantEntity.setParticipationStatus(ParticipationStatus.REJECTED);
+    meetingParticipantEntity.setUserCoordinateX(Double.NEGATIVE_INFINITY);
+    meetingParticipantEntity.setUserCoordinateY(Double.NEGATIVE_INFINITY);
 
     meetingParticipantRepository.save(meetingParticipantEntity);
+
+    return meetingParticipantConverter
+        .convertMeetingParticipantEntityToUserParticipantDTO(meetingParticipantEntity);
 
   }
 
@@ -347,7 +363,16 @@ public class MeetingsServiceImpl implements MeetingsService {
 
     MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).orElse(null);
 
-    meetingsEntity.setMeetingStatus(MeetingStatus.SUCCESSFUL);
+    if (meetingsEntity == null) {
+      throw new IllegalStateException("Meeting with id " + meetingId + " was "
+          + "not found, something went wrong!");
+    }
+
+    if (meetingIsCompletedAutomatically(meetingId)) {
+      meetingsEntity.setMeetingStatus(MeetingStatus.SUCCESSFUL);
+    } else {
+      meetingsEntity.setMeetingStatus(MeetingStatus.PARTIALLY_SUCCESSFUL);
+    }
 
     meetingsEntity.setEndedAt(new Timestamp(System.currentTimeMillis()));
 
@@ -356,4 +381,35 @@ public class MeetingsServiceImpl implements MeetingsService {
     return meetingsConverter.convertMeetingsEntityToMeetingsDTO(meetingsEntity);
 
   }
+
+  @Override
+  public Boolean meetingIsCompletedAutomatically(Long meetingId) {
+
+    MeetingsEntity meetingsEntity = meetingsRepository.findById(meetingId).get();
+
+    Set<MeetingParticipantEntity> activeMeetingParticipants = new HashSet<>();
+
+    Long numberOfParticipantsInPlace = 0L;
+
+    for (MeetingParticipantEntity meetingPartEnt : meetingsEntity.getMeetingParticipants()) {
+      if (meetingPartEnt.getParticipationStatus() == ParticipationStatus.ACCEPTED ||
+          meetingPartEnt.getParticipationStatus() == ParticipationStatus.CREATOR) {
+        activeMeetingParticipants.add(meetingPartEnt);
+      }
+    }
+
+    for (MeetingParticipantEntity actPart : activeMeetingParticipants) {
+      if ((actPart.getUserCoordinateX() - meetingsEntity.getCoordinateX())
+          * (actPart.getUserCoordinateX() - meetingsEntity.getCoordinateX())
+          + (actPart.getUserCoordinateY() - meetingsEntity.getCoordinateY())
+          * (actPart.getUserCoordinateY() - meetingsEntity.getCoordinateY())
+          <= meetingRadius * meetingRadius) {
+            numberOfParticipantsInPlace++;
+      }
+    }
+
+    return numberOfParticipantsInPlace == activeMeetingParticipants.size();
+
+  }
+
 }

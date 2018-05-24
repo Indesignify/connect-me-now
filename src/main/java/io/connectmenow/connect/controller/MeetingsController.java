@@ -62,10 +62,10 @@ public class MeetingsController {
   }
 
   @PatchMapping(value = "/{meetingId}/{userId}/accept", produces = MediaType.APPLICATION_JSON_VALUE)
-  public void acceptMeeting(
+  public UserParticipantDTO acceptMeeting(
       @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
 
-    meetingsService.acceptMeeting(userId, meetingId);
+    return meetingsService.acceptMeeting(userId, meetingId);
 
   }
 
@@ -87,10 +87,10 @@ public class MeetingsController {
   }
 
   @PatchMapping(value = "/{meetingId}/{userId}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
-  public void rejectMeeting(
+  public UserParticipantDTO rejectMeeting(
       @PathVariable("userId") Long userId, @PathVariable("meetingId") Long meetingId) {
 
-    meetingsService.rejectMeeting(userId, meetingId);
+    return meetingsService.rejectMeeting(userId, meetingId);
 
   }
 

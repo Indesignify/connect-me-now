@@ -31,10 +31,12 @@ public interface MeetingsService {
 
   MeetingsDTO cancelMeeting(Long meetingId, Long userId);
 
-  void acceptMeeting(Long userId, Long meetingId);
+  UserParticipantDTO acceptMeeting(Long userId, Long meetingId);
 
-  void rejectMeeting(Long userId, Long meetingId);
+  UserParticipantDTO rejectMeeting(Long userId, Long meetingId);
 
   MeetingsDTO completeMeeting(Long meetingId);
+
+  Boolean meetingIsCompletedAutomatically(Long meetingId);
 
 }

@@ -1,5 +1,5 @@
 application:
-  meeting-radius: 300
+  meeting-radius: 0.3
 
 spring:
   datasource:
