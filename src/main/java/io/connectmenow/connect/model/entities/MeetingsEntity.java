@@ -50,10 +50,10 @@ public class MeetingsEntity {
   @Enumerated(EnumType.STRING)
   private MeetingStatus meetingStatus;
 
-  @Column
+  @Column(name = "coordinate_x")
   private Double coordinateX;
 
-  @Column
+  @Column(name = "coordinate_y")
   private Double coordinateY;
 
   @OneToMany(mappedBy = "meeting", fetch = FetchType.EAGER)

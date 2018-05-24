@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 public interface FriendsConverter {
 
   FriendsEntity convert(FriendsDTO friendsDTO);
-
   FriendsDTO convert(FriendsEntity friendsEntity);
 
 }

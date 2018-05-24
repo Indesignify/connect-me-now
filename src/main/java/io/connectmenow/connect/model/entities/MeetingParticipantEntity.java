@@ -48,10 +48,10 @@ public class MeetingParticipantEntity {
   @Enumerated(EnumType.STRING)
   private ParticipationStatus participationStatus;
 
-  @Column
+  @Column(name = "user_coordinate_x")
   private Double userCoordinateX;
 
-  @Column
+  @Column(name = "user_coordinate_y")
   private Double userCoordinateY;
 
 }

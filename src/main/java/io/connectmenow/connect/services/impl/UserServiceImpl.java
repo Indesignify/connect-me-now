@@ -37,9 +37,6 @@ public class UserServiceImpl implements UserService {
   private MeetingParticipantConverter meetingParticipantConverter;
 
   @Autowired
-  private FriendsConverter friendsConverter;
-
-  @Autowired
   private FriendsRepository friendsRepository;
 
   @Override
@@ -48,7 +45,7 @@ public class UserServiceImpl implements UserService {
     UsersEntity usersEntity = userRepository.findById(id).orElse(null);
 
     if (usersEntity == null) {
-      return null;
+      throw new IllegalArgumentException("No user with id " + id + " exists!");
     }
 
     return userConverter.convertUsersEntityToUserDTO(usersEntity);

@@ -5,7 +5,6 @@ import io.connectmenow.connect.model.dto.FriendsListDTO;
 import io.connectmenow.connect.model.dto.MeetingsDTO;
 import io.connectmenow.connect.model.dto.UpdateUserDTO;
 import io.connectmenow.connect.model.dto.UserDTO;
-import io.connectmenow.connect.model.entities.FriendsEntity;
 import io.connectmenow.connect.services.UserService;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,7 +78,7 @@ public class UserController {
 
   }
 
-  @PostMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserDTO updateUser(
       @PathVariable("userId") Long userId, @Valid @RequestBody UpdateUserDTO updateUserDTO) {
 

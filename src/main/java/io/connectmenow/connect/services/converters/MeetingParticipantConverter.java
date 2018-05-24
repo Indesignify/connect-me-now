@@ -17,12 +17,9 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", uses = MeetingsConverter.class)
+@Mapper(componentModel = "spring")
 @Component
 public abstract class MeetingParticipantConverter {
-
-  MeetingsConverter meetingsConverter
-      = Mappers.getMapper(MeetingsConverter.class);
 
   @Autowired
   protected UserRepository userRepository;
@@ -33,8 +30,8 @@ public abstract class MeetingParticipantConverter {
   @Autowired
   protected MeetingParticipantRepository meetingParticipantRepository;
 
-  public MeetingParticipantEntity convertMeetingParticipantDTOToMeetingParticipantEntity
-      (MeetingParticipantDTO meetingParticipantDTO) {
+  public MeetingParticipantEntity convertMeetingParticipantDTOToMeetingParticipantEntity(
+      MeetingParticipantDTO meetingParticipantDTO) {
 
     MeetingParticipantEntity meetingParticipantEntity = meetingParticipantRepository
         .findMeetingParticipantEntityByMeetingId(meetingParticipantDTO.getMeetingId());
@@ -43,8 +40,9 @@ public abstract class MeetingParticipantConverter {
 
   }
 
-  public MeetingParticipantDTO convertMeetingParticipantEntityToMeetingParticipantDTO
-      (MeetingParticipantEntity meetingParticipantEntity) {
+  public MeetingParticipantDTO convertMeetingParticipantEntityToMeetingParticipantDTO(
+      MeetingParticipantEntity meetingParticipantEntity) {
+
     MeetingsEntity meetingsEntity =
         meetingsRepository.findById(meetingParticipantEntity.getMeetingId()).get();
 
@@ -56,10 +54,24 @@ public abstract class MeetingParticipantConverter {
         .build();
 
     return meetingParticipantDTO;
+
+  }
+
+  public Set<MeetingParticipantDTO> convertMeetingParticipantEntitySetToMeetingParticipantDTOSet(
+      Set<MeetingParticipantEntity> meetingParticipantEntities) {
+
+    Set<MeetingParticipantDTO> meetingParticipantDTOS = new LinkedHashSet<>();
+
+    meetingParticipantEntities.forEach(entity -> meetingParticipantDTOS
+        .add(convertMeetingParticipantEntityToMeetingParticipantDTO(entity)));
+
+    return meetingParticipantDTOS;
+
   }
 
   public UserParticipantDTO convertMeetingParticipantEntityToUserParticipantDTO(
       MeetingParticipantEntity meetingParticipantEntity) {
+
     UsersEntity usersEntity = userRepository.findById(meetingParticipantEntity.getUserId()).get();
 
     UserParticipantDTO userParticipantDTO = UserParticipantDTO
@@ -74,26 +86,36 @@ public abstract class MeetingParticipantConverter {
         .build();
 
     return userParticipantDTO;
+
   }
 
   public Set<UserParticipantDTO> convertMeetingParticipantEntitySetToUserParticipantDTOSet(
       Set<MeetingParticipantEntity> meetingParticipantEntities) {
+
     Set<UserParticipantDTO> userParticipantDTOS = new LinkedHashSet<>();
+
     meetingParticipantEntities.forEach(entity -> userParticipantDTOS
         .add(convertMeetingParticipantEntityToUserParticipantDTO(entity)));
+
     return userParticipantDTOS;
+
   }
 
   public Set<MeetingsDTO> convertMeetingParticipantEntitySetToMeetingsDTOSet(
       Set<MeetingParticipantEntity> meetingParticipantEntities) {
+
     Set<MeetingsDTO> meetingsDTOSet = new LinkedHashSet<>();
+
     meetingParticipantEntities.forEach(entity -> meetingsDTOSet
                                   .add(convertMeetingParticipantEntityToMeetingsDTO(entity)));
+
     return meetingsDTOSet;
+
   }
 
   public MeetingsDTO convertMeetingParticipantEntityToMeetingsDTO(
       MeetingParticipantEntity meetingParticipantEntity) {
+
     MeetingsEntity meetingsEntity =
         meetingsRepository.findById(meetingParticipantEntity.getMeetingId()).get();
 
@@ -111,6 +133,7 @@ public abstract class MeetingParticipantConverter {
         .build();
 
     return meetingsDTO;
+
   }
 
   public UserMeetingInfoDTO convert(MeetingParticipantEntity meetingParticipantEntity) {
@@ -130,9 +153,13 @@ public abstract class MeetingParticipantConverter {
   }
 
   public Set<UserMeetingInfoDTO> convert(Set<MeetingParticipantEntity> meetingParticipantEntities) {
+
     Set<UserMeetingInfoDTO> userMeetingInfoDTOSet = new LinkedHashSet<>();
+
     meetingParticipantEntities.forEach(entity -> userMeetingInfoDTOSet.add(convert(entity)));
+
     return userMeetingInfoDTOSet;
+
   }
 
 }

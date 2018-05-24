@@ -54,6 +54,10 @@ public class FriendsServiceImpl implements FriendsService {
 
     FriendsEntity requesterFriendsEntity = friendsRepository.findFriendsEntityByPersonId(requesterId);
 
+    if (requesterFriendsEntity == null) {
+      throw new IllegalArgumentException("Friend request from user " + requesterId + " not found!");
+    }
+
     UsersEntity requester = userRepository.findById(responderId).get();
 
     UsersEntity responder = userRepository.findById(requesterId).get();
@@ -103,6 +107,10 @@ public class FriendsServiceImpl implements FriendsService {
   public FriendsDTO rejectFriendship(Long responderId, Long requesterId) {
 
     FriendsEntity requesterFriendsEntity = friendsRepository.findFriendsEntityByPersonId(requesterId);
+
+    if (requesterFriendsEntity == null) {
+      throw new IllegalArgumentException("Friend request from user " + requesterId + " not found!");
+    }
 
     requesterFriendsEntity.setFriendshipStatus(FriendshipStatus.REJECTED);
 
